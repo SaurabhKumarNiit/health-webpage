@@ -1,14 +1,13 @@
 "use client"
 import React from 'react';
-import DoctorSearch from './DoctorSearch';
-
+import DoctorDataSearch from './DoctorDataSearch'
 
 
 const SearchDoctors = () => {
   return (
     <>
       <section className="SearchDoctors mb-1">
-        <DoctorSearch />    
+        <DoctorDataSearch/>
       </section>
     </>
   );

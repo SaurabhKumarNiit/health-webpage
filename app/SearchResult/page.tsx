@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import DoctorSearch from './Doctor/DoctorSearch';
+import DoctorDataSearch from './Doctor/DoctorDataSearch'
 
 
 
@@ -9,7 +9,7 @@ const SearchDoctors = () => {
   return (
     <>
       <section className="SearchDoctors mb-1">
-        <DoctorSearch />
+        <DoctorDataSearch />
       </section>
     </>
   );
