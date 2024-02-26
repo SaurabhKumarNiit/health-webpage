@@ -13,6 +13,9 @@ p {
   scrollbar-color: #c5cee0;
 }
 
+.carousel .carousel-status{
+  display:none
+}
 .custom-scrollbar::-webkit-scrollbar {
   width: 20px;
 }
@@ -95,13 +98,14 @@ p {
 #hwSearchFilter .carousel .control-dots {
     bottom: -15px;
 }
-.carousel .control-next.control-arrow:before,
+/* .carousel .control-next.control-arrow:before,
 .carousel .control-prev.control-arrow:before {
+  display: none;
   background-color: #fff;
   width: 26px;
   height: 26px;
   border-radius: 100px;
-}
+} */
 #hwSearchFilter .carousel .control-dots .dot {
     border-radius: 100px;
     width: 12px;
