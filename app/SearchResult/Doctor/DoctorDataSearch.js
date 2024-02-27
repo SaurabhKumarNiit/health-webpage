@@ -449,7 +449,6 @@ const DoctorDataSearch = () => {
         setCurrentOrgan(filterOptions.organ);
         setCurrentSearchFor(filterOptions.searchFor);
 
-
         if (filterOptions.searchFor == 'Doctor') {
             try {
                 const data = await fetchDoctors(filterOptions.type, filterOptions.organ, filterOptions.zipCode, filterOptions.zip_codes);
@@ -1600,9 +1599,6 @@ const DoctorDataSearch = () => {
                                 </div>
                             </Modal>
                         </div>
-
-
-
                         <div className='bg-[#fff] border-b border-[#e4e9f2]'>
                             <div className='flex items-center justify-between p-4 max-w-[1355px] mx-auto'>
                                 {/* HW Filter Top Left */}
@@ -1692,7 +1688,7 @@ const DoctorDataSearch = () => {
                                                 }
                                                 key={index}
                                                 className={`rounded mb-2 sm:rounded-[0px] searchresultLists ease-in min-h-[150px] duration-300 cursor-pointer bg-[#f7f9fc] pl-8 pr-5 pt-4 pb-4 border-l-[6px] 
-                          ${
+                                                  ${
                                                     // console.log(doctor.id[0]),
                                                     defaultSelectedItemID === hospital.id ? 'border-[#6e2feb]' : 'border-transparent'
                                                     } ${selectedItemID === hospital.id ? 'bg-[#fff]' : ''}`
