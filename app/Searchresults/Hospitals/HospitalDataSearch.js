@@ -957,7 +957,7 @@ const HospitaDataSearch = () => {
 
                       <div className="flex justify-start items-center py-10 gap-4 sm:h-[140px]">
                         <div>
-                          <img className="min-w-[50px]" src="https://househealthinc.com/wp-content/themes/blocksy-child/images/specialities.svg" />
+                          <img className="min-w-[50px]" src="../images/search/Specialities.svg"/>
                         </div>
                         <div className="font-semibold text-[#101426]">Specialities</div>
                       </div>
@@ -1261,7 +1261,7 @@ const HospitaDataSearch = () => {
                                   </div>
                                 </div>
                                 <div className='detailsSpeclty py-6 flex justify-space gap-3 items-center border-t border-[#E4E9F2]-500'>
-                                  <div className=''><img src='https://househealthinc.com/wp-content/themes/blocksy-child/images/specialities.svg' /></div>
+                                  <div className=''><img src='../images/search/Specialities.svg' /></div>
                                   <div className=''><p>Specialities</p>
                                     <ul className='list-none flex gap-2 font-semibold text-[#101426]'>
                                       <li className='text-[#101426]'><span>{capitalizeString(doctor.primary_speciality)}</span>
