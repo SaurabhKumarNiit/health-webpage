@@ -112,6 +112,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
     const handleApplyFilter = () => {
         // Call applyFilter function with the selected filter options
         applyFilter({ type, organ, searchFor, zipCode, zip_codes });
+        onCancel();
     };
 
     const handleOptionClick = (option) => {
@@ -1609,7 +1610,7 @@ const DoctorDataSearch = () => {
                                     <p className='text-[17px]'>
                                         Showing <span className='font-bold text-[#101426CC]'>{hospitals.length}</span> hospital for
                                         <span className='font-bold capitalize text-[#101426CC]'>
-                                            {''} {currentType},
+                                            {''} {currentType}
                                         </span>
                                         {currentZipCode && (
                                             <>
