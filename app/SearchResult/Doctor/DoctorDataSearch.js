@@ -964,7 +964,7 @@ const DoctorDataSearch = () => {
 
                                             <div className="flex justify-start items-center py-10 gap-4 sm:h-[140px]">
                                                 <div>
-                                                    <img className="min-w-[50px]" src="../images/specialities.svg" />
+                                                    <img className="min-w-[50px]" src="https://househealthinc.com/wp-content/themes/blocksy-child/images/specialities.svg" />
                                                 </div>
                                                 <div className="font-semibold text-[#101426]">Specialities</div>
                                             </div>
