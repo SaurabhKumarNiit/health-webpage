@@ -67,6 +67,8 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
     const [selectImage1, setSelectImage1] = useState(defaultValues.organ || '');
     const [organs, setOrgan] = useState("");
     const [filterModalIsOpen, setFilterModalIsOpen] = useState(false);
+    // const [showPopup, setShowPopup] = useState(false);
+
 
     const handleOrganSelection = (selectedOrgan, option) => {
         setSelectImage(selectedOrgan);
@@ -111,6 +113,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
         // Call applyFilter function with the selected filter options
         applyFilter({ type, organ, searchFor, zipCode, zip_codes });
     };
+
     const handleOptionClick = (option) => {
         setSelectedOption(option);
         setType(option); // Set the type when an option is selected
@@ -476,22 +479,22 @@ const DoctorDataSearch = () => {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-          let myKeys = window.location.search;
-          let urlParams = new URLSearchParams(myKeys);
-          let param1 = urlParams.get("search");
-          let filterParams = new URLSearchParams(param1);
-          // Use defaultValues here or set your state accordingly
+            let myKeys = window.location.search;
+            let urlParams = new URLSearchParams(myKeys);
+            let param1 = urlParams.get("search");
+            let filterParams = new URLSearchParams(param1);
+            // Use defaultValues here or set your state accordingly
         }
-      }, []);
+    }, []);
 
-      const defaultValues = {
+    const defaultValues = {
         type: currentType,
         organ: currentOrgan,
         searchFor: currentSearchFor,
         zipCode: currentZipCode,
         zip_codes: currentZipCode1,
-      };
-    
+    };
+
     console.log("current zipcode", currentZipCode1);
     // Capitalize the first letter of each word
     function capitalizeString(str) {
