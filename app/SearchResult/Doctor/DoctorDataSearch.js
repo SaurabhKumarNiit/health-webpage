@@ -954,14 +954,10 @@ const DoctorDataSearch = () => {
             setSelectedPage(pageNumber);
         }
     };
-  
-      // Capitalize the first letter of each word
-      function capitalizeString(str) {
-        return str.replace(/\w\S*/g, function (txt) {
-          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
-      }
+    
       // Filter Pagination 
+
+  
       // Result Load Code
       useEffect(() => {
         async function loadResults() {
