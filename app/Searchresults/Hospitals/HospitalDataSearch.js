@@ -1783,22 +1783,23 @@ const HospitaDataSearch = () => {
                     {/* ###Filter Pagination Start*/}
                     <div className='hwFitlerPagination mt-4 text-center'>
                       <div className='flex p-4 items-center justify-center gap-1 border-gray-200'>
-                        {/* <button
-                              className='inline-flex shadow-md items-center rounded-md text-sm px-3 py-2 text-gray-600 ring-1 hover:text-[#fff] ring-inset bg-[#f7f9fc] hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0' 
-                              onClick={loadPrevious} disabled={page === 1}>Prev</button>  */}
+                        <button
+                          className='inline-flex shadow-md items-center rounded-md text-sm px-3 py-2 text-gray-600 ring-1 hover:text-[#fff] ring-inset bg-[#f7f9fc] hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
+                          onClick={loadPrevious} disabled={page === 1}>Prev</button>
 
-                        {/* {generatePageNumbers().map((pageNumber) => (
-                                <button className='
+                        {generatePageNumbers().map((pageNumber) => (
+                          <button className='
                                   relative inline-flex shadow-md items-center px-4 py-2 text-sm font-semibold text-gray-900 hover:text-[#fff] bg-[#f7f9fc] rounded-md ring-1 ring-inset ring-gray-100 hover:bg-[#6E2FEB] focus:z-20 focus:outline-offset-0
                                   ' key={pageNumber} onClick={() => setPage(pageNumber)}>{pageNumber}</button>
-                              ))} */}
-                        {/* <p className='hidden'><span className='
+                        ))}
+                        <p className='hidden'><span className='
                               relative shadow-md inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 rounded-md hover:bg-gray-50 focus:z-20 focus:outline-offset-0'>...</span> {totalDataCount}</p>
-                              <button 
-                              className='shadow-md inline-flex items-center bg-[#f7f9fc] rounded-md text-sm px-3 py-2 ring-1 ring-inset hover:text-[#fff] text-grey-600 hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
-                              onClick={loadMore} disabled={page === totalPages}>Next</button> */}
+                        <button
+                          className='shadow-md inline-flex items-center bg-[#f7f9fc] rounded-md text-sm px-3 py-2 ring-1 ring-inset hover:text-[#fff] text-grey-600 hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
+                          onClick={loadMore} disabled={page === totalPages}>Next</button>
                       </div>
-                    </div>{/* ###Filter Pagination End*/}
+                    </div>
+                    {/* filter pagination */}
 
                     <div className='ease-in-out duration-500 filterCompareBtns sticky bottom-0 left-4 right-10 z-1 bg-[#fff] p-4 max-w-[480px] -shadow-sm'>
                       <div className='flex items-center justify-end gap-[10px]'>
