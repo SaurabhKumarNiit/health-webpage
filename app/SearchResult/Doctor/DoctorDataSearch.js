@@ -18,6 +18,11 @@ import Box from "@mui/material/Box";
 import Modal from 'react-modal';
 import { type } from 'os';
 
+async function fetchPaginatedDoctors(page, perPage) {
+    const response = await fetch(`https://api.coc.houseworksinc.co/api/v1/doctors?page=${page}&per_page=${perPage}`)
+    const data = await response.json();
+    return data;
+}
 
 async function fetchDoctors(type, organ, zipCode, zip_codes) {
     try {
@@ -930,6 +935,48 @@ const DoctorDataSearch = () => {
         }
     }, [isLoading1, doctorsData]);
 
+    // ============================================PAGINATION
+
+      
+      const handlePageClick = (pageNumber) => {
+        if (pageNumber === 'prev' && page > 1) {
+            if (page > 1) {
+                setPage(page - 1);
+                setSelectedPage(page - 1);
+            }
+        } else if (pageNumber === 'next' && page < totalPages) {
+            if (page < totalPages) {
+                setPage(page + 1);
+                setSelectedPage(page + 1);
+            }
+        } else if (typeof pageNumber === 'number' && pageNumber !== selectedPage) {
+            setPage(pageNumber);
+            setSelectedPage(pageNumber);
+        }
+    };
+  
+      // Capitalize the first letter of each word
+      function capitalizeString(str) {
+        return str.replace(/\w\S*/g, function (txt) {
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+      }
+      // Filter Pagination 
+      // Result Load Code
+      useEffect(() => {
+        async function loadResults() {
+          const data = await  fetchPaginatedDoctors(page, perPage);
+          setDoctors(data.results);
+          setTotalDataCount(data.count);
+          setTotalPages(Math.ceil(data.count / perPage));
+          if (data.results && data.results.length > 0) {
+            setSelectedItemID(data.results[0].id);
+          }
+          setIsLoading(false);
+        }
+        loadResults();
+      }, [page,perPage]);
+
     return (
         <div>
             {/* Doctors Data Loaded */}
@@ -1220,14 +1267,28 @@ const DoctorDataSearch = () => {
                                             </div>
                                         ))}
 
-                                        {/* ###Filter Pagination Start*/}
-                                        <div className='hwFitlerPagination mt-4 text-center'>
-                                            <div className='flex p-4 items-center justify-center gap-1 border-gray-200'>
-
-                                                <p className='hidden'><span className='
+                                         {/* ###Filter Pagination Start*/}
+                          <div className='hwFitlerPagination mt-4 text-center'>
+                            <div className='flex p-4 items-center justify-center gap-1 border-gray-200'>
+                              <button
+                              className='inline-flex shadow-md items-center rounded-md text-sm px-3 py-2 text-gray-600 ring-1 hover:text-[#fff] ring-inset bg-[#f7f9fc] hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0' 
+                              onClick={loadPrevious} disabled={page === 1}>Prev</button>
+                              
+                              {generatePageNumbers().map((pageNumber) => (
+                                <button 
+                                style={{backgroundColor:selectedPage===pageNumber ?'#6E2FEB':'initial',
+                                        color:selectedPage===pageNumber ? 'white' :'initial'}}
+                                className='
+                                  relative inline-flex shadow-md items-center px-4 py-2 text-sm font-semibold text-gray-900 hover:text-[#fff] bg-[#f7f9fc] rounded-md ring-1 ring-inset ring-gray-100 hover:bg-[#6E2FEB] focus:z-20 focus:outline-offset-0
+                                  ' key={pageNumber} onClick={() => handlePageClick(pageNumber)}>{pageNumber}</button>
+                              ))}
+                              <p className='hidden'><span className='
                               relative shadow-md inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 rounded-md hover:bg-gray-50 focus:z-20 focus:outline-offset-0'>...</span> {totalDataCount}</p>
-                                            </div>
-                                        </div>{/* ###Filter Pagination End*/}
+                              <button 
+                              className='shadow-md inline-flex items-center bg-[#f7f9fc] rounded-md text-sm px-3 py-2 ring-1 ring-inset hover:text-[#fff] text-grey-600 hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
+                              onClick={loadMore} disabled={page === totalPages}>Next</button>
+                            </div>
+                          </div>{/* ###Filter Pagination End*/}
 
                                         <div className='filterCompareBtns sticky bottom-0 left-4 right-10 z-1 bg-[#fff] p-4 max-w-[480px] -shadow-sm'>
                                             <div className='flex items-center justify-end gap-[10px]'>
