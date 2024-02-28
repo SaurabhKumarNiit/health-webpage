@@ -1263,7 +1263,7 @@ const DoctorDataSearch = () => {
                                                                     <div class="flex-auto flex justify-start items-center font-semibold">
                                                                         <div className="mr-6 flex items-center gap-2 cursor-pointer shareBTN" onClick={toggleShare}>
                                                                             <PiShareNetwork className="text-2xl text-[#8F9BB3] cursor-pointer" /> Share
-                                                                            {isShareOpen && <HwShareon onClose={toggleShare} />}
+                                                                            {isShareOpen && <HwShareon id={doctor.id} value={'Doctor'} onClose={toggleShare} />}
                                                                         </div>
                                                                         <div class="px-6 border-x">NPI: {doctor.npi}
                                                                         </div>
@@ -1816,7 +1816,7 @@ const DoctorDataSearch = () => {
                                                                         <div className="mr-6 flex items-center gap-2 cursor-pointer shareBTN text-base font-semibold text-[#101426]"
                                                                             onClick={toggleShare}>
                                                                             <PiShareNetwork className="text-2xl text-[#8F9BB3] cursor-pointer" /> Share
-                                                                            {isShareOpen && <HwShareon onClose={toggleShare} />}
+                                                                            {isShareOpen && <HwShareon id={hospital.id} value={'Hospital'} onClose={toggleShare} />}
                                                                         </div>
                                                                         <div class="px-6 border-x text-[#101426] text-base font-normal ">NPI Facility ID: <span className='font-semibold'>{hospital.facility_id}</span>
                                                                         </div>

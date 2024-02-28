@@ -7,8 +7,21 @@ const Casesharedata = () => {
     const hospitalId =`c306de1e-2112-4161-b11d-7018f2d82b15`; 
 
     useEffect(() => {
+         console.log(window.location);
+         let myKeys = window.location.search;
+         console.log("k & V :", myKeys);
+
+         let urlParams = new URLSearchParams(myKeys);
+         console.log(urlParams);
+         let param1 = urlParams.get("search");
+         console.log(param1);
+
+        //  let filterParams = new URLSearchParams(param1);
+
+        //  let type = filterParams.get("type");
+
         // Fetch doctor data
-        fetch(`https://api.coc.houseworksinc.co/api/v1/doctors/${doctorId}`)
+        fetch(`https://api.coc.houseworksinc.co/api/v1/doctors/${param1}`)
             .then(response => response.json())
             .then(data => {
                 setDoctorData(data);
@@ -37,13 +50,6 @@ const Casesharedata = () => {
                     <h2>Doctor Information</h2>
                     <p>first_name: {doctorData.first_name}</p>
                     <p>last_name: {doctorData.last_name}</p>
-                </div>
-            )}
-            {hospitalData && (
-                <div>
-                    <h2>Hospital Information</h2>
-                    <p>Name: {hospitalData.facility_name}</p>
-                    <p>city: {hospitalData.city}</p>
                 </div>
             )}
         </>
