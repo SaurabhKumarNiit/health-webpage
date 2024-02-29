@@ -54,7 +54,7 @@ const Casesharedata = () => {
     return (
         <>
             {hospitalData && (
-                <div className='singleDetails p-0 sm:p-10 max-w-[1220px] mx-auto min-h-[100vh]'>
+                <div className='singleDetails p-0 sm:p-10 max-w-[1220px] mx-auto min-h-[90vh]'>
                 <div className='p-5 flex justify-between'>
                   <div>
                     <h1 className='font-bold text-md sm:text-2xl md:text-3xl'>

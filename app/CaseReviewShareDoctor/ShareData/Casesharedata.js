@@ -61,7 +61,7 @@ const Casesharedata = () => {
         <>
             {/* Display doctor and hospital data */}
             {doctorData && (
-                <div className='singleDetails p-0 sm:p-10 max-w-[1220px] mx-auto min-h-[100vh]'>
+                <div className='singleDetails p-0 sm:p-10 max-w-[1220px] mx-auto min-h-[90vh]'>
                     <div className='p-5 flex justify-between'>
                         <div>
                             <h1 className='font-bold text-md sm:text-2xl md:text-3xl'>
@@ -86,9 +86,14 @@ const Casesharedata = () => {
                         </div>
                         <div className='mt-1'>
                             <p>Specialities type</p>
-                            <p className='font-bold'>   
-                                {`${capitalizeString(doctorData.primary_speciality)}`} 
-                                <> , </>{`${doctorData.secondary_specialities}`}</p>
+                            <p className='font-bold'>{`${capitalizeString(doctorData.primary_speciality)}`}
+                                {doctorData.secondary_specialities.length > 0 && (
+                                    <span>, {doctorData.secondary_specialities.map((speciality, index) => (
+                                        <span key={index}>{`${capitalizeString(speciality)}`}{index !== doctorData.secondary_specialities.length - 1 ? ', ' : ''}</span>
+                                    ))}
+                                    </span>
+                                )}
+                            </p>
                         </div>
                     </div>
 
