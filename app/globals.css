@@ -5,6 +5,9 @@
 p {
     color: #10142699;
   }
+  .site-footer .singledata{
+    display: none;
+  }
   /*Scroller CSS*/
   /* Scroller CSS */
 /* Custom scrollbar styles */

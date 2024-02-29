@@ -111,6 +111,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
   const handleApplyFilter = () => {
     // Call applyFilter function with the selected filter options
     applyFilter({ type, organ, searchFor, zipCode, zip_codes });
+    onCancel();
   };
   const handleOptionClick = (option) => {
     setSelectedOption(option);
@@ -2056,7 +2057,7 @@ const HospitaDataSearch = () => {
               onRequestClose={closeFilterModal}
               contentLabel="Filter Doctors">
 
-              {showPopup && <FilterPopup
+              {showPopup || <FilterPopup
                 // isOpen={filterModalIsOpen}
                 onCancel={cancelFilter}
                 applyFilter={applyFilter}

@@ -129,7 +129,7 @@ const HWSearch = () => {
   };
 
   const handleRemoveZipCode = (index, event) => {
-    event.preventDefault(); // Prevent page reload
+    event.preventDefault(); 
     const removedZipCode = selectedZipCodes[index];
   
     setSelectedZipCodes((prevSelectedZipCodes) =>
