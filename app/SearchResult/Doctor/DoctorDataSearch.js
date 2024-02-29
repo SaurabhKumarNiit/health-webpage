@@ -1117,7 +1117,6 @@ const DoctorDataSearch = () => {
                                 applyFilter={applyFilter}
                                 defaultValues={defaultValues}
                             />}
-                            <button>close</button>
                         </Modal>{/* ## End Filter Form here */}
 
                         <div className='bg-[#fff] border-b border-[#e4e9f2]'>
@@ -2095,7 +2094,7 @@ const DoctorDataSearch = () => {
                             onRequestClose={closeFilterModal}
                             contentLabel="Filter Doctors">
 
-                            {showPopup && <FilterPopup
+                            {showPopup || <FilterPopup
                                 // isOpen={filterModalIsOpen}
                                 onCancel={cancelFilter}
                                 applyFilter={applyFilter}

@@ -1778,8 +1778,6 @@ const HospitaDataSearch = () => {
                     ))}
 
                     {/* working  */}
-
-
                     {/* ###Filter Pagination Start*/}
                     <div className='hwFitlerPagination mt-4 text-center'>
                       <div className='flex p-4 items-center justify-center gap-1 border-gray-200'>
@@ -2058,7 +2056,7 @@ const HospitaDataSearch = () => {
               onRequestClose={closeFilterModal}
               contentLabel="Filter Doctors">
 
-              {showPopup || <FilterPopup
+              {showPopup && <FilterPopup
                 // isOpen={filterModalIsOpen}
                 onCancel={cancelFilter}
                 applyFilter={applyFilter}
