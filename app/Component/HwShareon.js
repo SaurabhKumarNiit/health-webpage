@@ -7,7 +7,7 @@ import {
   WhatsappShareButton,
   LinkedinShareButton,
   FacebookIcon,
-  PinterestIcon,
+  // PinterestIcon,
   RedditIcon,
   WhatsappIcon,
   LinkedinIcon
@@ -33,10 +33,10 @@ const HwShareon = (prop) => {
         // Handle Facebook share logic
         console.log('Sharing on Facebook:', shareUrl);
         break;
-      case 'pinterest':
-        // Handle Pinterest share logic
-        console.log('Sharing on Pinterest:', shareUrl);
-        break;
+      // case 'pinterest':
+      //   // Handle Pinterest share logic
+      //   console.log('Sharing on Pinterest:', shareUrl);
+      //   break;
       case 'reddit':
         // Handle Reddit share logic
         console.log('Sharing on Reddit:', shareUrl);
@@ -62,24 +62,28 @@ const HwShareon = (prop) => {
       >
         <FacebookIcon size={32} round />
       </FacebookShareButton>
-      <PinterestShareButton
+
+      {/* <PinterestShareButton
         onClick={() => handleShareClick('pinterest')}
         url={shareUrl}
       >
         <PinterestIcon size={32} round />
-      </PinterestShareButton>
+      </PinterestShareButton> */}
+
       <RedditShareButton
         onClick={() => handleShareClick('reddit')}
         url={shareUrl}
       >
         <RedditIcon size={32} round />
       </RedditShareButton>
+
       <WhatsappShareButton
         onClick={() => handleShareClick('whatsapp')}
         url={shareUrl}
       >
         <WhatsappIcon size={32} round />
       </WhatsappShareButton>
+
       <LinkedinShareButton
         onClick={() => handleShareClick('linkedin')}
         url={shareUrl}
