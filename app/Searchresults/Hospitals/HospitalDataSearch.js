@@ -24,10 +24,20 @@ async function fetchPaginatedDoctors(page, perPage) {
     return data;
 }
 
-async function fetchPaginatedHospitals(page, perPage) {
-    const response = await fetch(`https://api.coc.houseworksinc.co/api/v1/hospitals?page=${page}&per_page=${perPage}`)
-    const data = await response.json();
-    return data;
+async function fetchPaginatedHospitals(page, perPage ,zipcode) {
+    if(zipcode){
+        const response = await fetch(`https://api.coc.houseworksinc.co/api/v1/hospitals?page=${page}&per_page=${perPage}&zip_code=${zipcode}`)
+        const data = await response.json();
+        return data;
+
+    }else{
+        const response = await fetch(`https://api.coc.houseworksinc.co/api/v1/hospitals?page=${page}&per_page=${perPage}`)
+        const data = await response.json();
+        return data;
+
+    }
+
+    // return 'data';
 }
 
 async function fetchDoctors(type, organ, zipCode, zip_codes) {
@@ -338,7 +348,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
         </div>
     );
 };
-const HospitaDataSearch = () => {
+const DoctorDataSearch = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [doctorsData, setDoctors] = useState([]);
     const [hospitals, setHospitals] = useState([]);
@@ -365,6 +375,8 @@ const HospitaDataSearch = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [totalDataCount, setTotalDataCount] = useState(0);
     const [selectedItemID, setSelectedItemID] = useState(null);
+    const [selectedItemIdDoctor, setSelectedItemIdDoctor] = useState(null);
+
     const [selectedPage, setSelectedPage] = useState(1);
 
     const [pageHospital, setPageHospital] = useState(1);
@@ -380,9 +392,14 @@ const HospitaDataSearch = () => {
     const [valueSearch, searchForValue] = useState("");
     const [valueUpdate, setUpdatedValue] = useState("");
     const [defaultSelectedItemID, setDefaultSelectedItemID] = useState(null);
+    const [defaultSelectedItemIdDoctor, setDefaultSelectedItemIdDoctor] = useState(null);
+
     const [zip_codes, setzip_codes] = useState('');
     const [selectedDoctors, setSelectedDoctors] = useState([]);
     const [selectedHospitals, setSelectedHospitals] = useState([]);
+    const [shouldShowFiltrationDoctors, setShouldShowFiltrationDoctors] = useState(true);
+    const [shouldShowFiltrationHospitals, setShouldShowFiltrationHospitals] = useState(true);
+
 
 
     useEffect(() => {
@@ -426,7 +443,7 @@ const HospitaDataSearch = () => {
             let organ = filterParams.get("organ");
             let zipCode = filterParams.get("zip_code");
             let zip_codes = filterParams.get("zip_codes")
-            console.log(zip_codes);
+            console.log(zipCode);
             setCurrentType(type);
             setCurrentZipCode(zipCode);
             setCurrentZipCode1(zip_codes);
@@ -441,6 +458,10 @@ const HospitaDataSearch = () => {
                     const data = await fetchDoctors(type, organ, zipCode, zip_codes);
                     // setDoctors(data.results); 
                     setDoctors(data.results);
+                    setShouldShowFiltrationDoctors(data.count > 10);
+
+                    // console.log(data.count);
+                    // setSelectedDoctor(data.results[0]);
                     setDataState(true);
                     setIsLoading(false);
                 } catch (error) {
@@ -451,8 +472,9 @@ const HospitaDataSearch = () => {
                     const data = await fetchHospitals(type, zipCode, zip_codes);
                     // setDoctors(data.results); 
                     setHospitals(data.results);
+                    console.log(data.results)
+                    setShouldShowFiltrationHospitals(data.count > 10)
                     setDataState(false);
-                    console.log(dataState);
                     setIsLoading(false);
                 } catch (error) {
                     console.error('Error fetching data:', error);
@@ -475,7 +497,7 @@ const HospitaDataSearch = () => {
             try {
                 const data = await fetchDoctors(filterOptions.type, filterOptions.organ, filterOptions.zipCode, filterOptions.zip_codes);
                 setDoctors(data.results);
-
+                setShouldShowFiltrationDoctors(data.count > 10);
                 console.log(data);
                 setDataState(true);
 
@@ -489,6 +511,7 @@ const HospitaDataSearch = () => {
                 const data = await fetchHospitals(filterOptions.type, filterOptions.zipCode, filterOptions.zip_codes);
                 // setDoctors(data.results); 
                 setHospitals(data.results);
+                setShouldShowFiltrationHospitals(data.count > 10)
                 setDataState(false);
                 console.log(dataState);
                 setIsLoading(false);
@@ -528,6 +551,11 @@ const HospitaDataSearch = () => {
     const handleItemClick = (id) => {
         setDefaultSelectedItemID(id);
         setSelectedItemID(id);
+    };
+
+    const handleItemClick1 = (id) => {
+        setDefaultSelectedItemIdDoctor(id);
+        setSelectedItemIdDoctor(id);
     };
 
     const toggleZipCode = (doctorId) => {
@@ -660,8 +688,21 @@ const HospitaDataSearch = () => {
     }, [hospitals]);
 
     useEffect(() => {
+        if (doctorsData.length > 0) {
+            setDefaultSelectedItemIdDoctor(doctorsData[0].id);
+            setSelectedItemIdDoctor(doctorsData[0].id);
+        }
+    }, [doctorsData]);
+
+    useEffect(() => {
         setSelectedItemID(defaultSelectedItemID);
+
     }, [defaultSelectedItemID]);
+
+    useEffect(() => {
+        setSelectedItemIdDoctor(defaultSelectedItemIdDoctor);
+        
+    }, [defaultSelectedItemIdDoctor]);
 
     // Capitalize the first letter of each word
     function capitalizeString(str) {
@@ -983,8 +1024,8 @@ const HospitaDataSearch = () => {
 
     // ============================================PAGINATION
 
-      
-      const handlePageClick = (pageNumber) => {
+
+    const handlePageClick = (pageNumber) => {
         if (pageNumber === 'prev' && page > 1) {
             if (page > 1) {
                 setPage(page - 1);
@@ -1000,21 +1041,35 @@ const HospitaDataSearch = () => {
             setSelectedPage(pageNumber);
         }
     };
-  
-      // Result Load Code
-      useEffect(() => {
+
+    // Result Load Code
+    useEffect(() => {
         async function loadResults() {
-          const data = await  fetchPaginatedDoctors(page, perPage);
-          setDoctors(data.results);
-          setTotalDataCount(data.count);
-          setTotalPages(Math.ceil(data.count / perPage));
-          if (data.results && data.results.length > 0) {
-            setSelectedItemID(data.results[0].id);
-          }
-          setIsLoading(false);
+
+            let myKeys = window.location.search;
+            // console.log("k & V :", myKeys);
+            let urlParams = new URLSearchParams(myKeys);
+            let param1 = urlParams.get("search");
+            let filterParams = new URLSearchParams(param1);
+            // let type = filterParams.get("type");
+            // let searchFor = filterParams.get("searchFor");
+            // let organ = filterParams.get("organ");
+            let zipCode = filterParams.get("zip_code");
+
+            const data = await fetchPaginatedDoctors(page, perPage);
+            if(!zipCode){
+            setDoctors(data.results);
+            }
+
+            setTotalDataCount(data.count);
+            setTotalPages(Math.ceil(data.count / perPage));
+            if (data.results && data.results.length > 0) {
+                setSelectedItemID(data.results[0].id);
+            }
+            setIsLoading(false);
         }
         loadResults();
-      }, [page,perPage]);
+    }, [page, perPage]);
 
 
     //   =======================================================Hospital Pagination
@@ -1035,21 +1090,32 @@ const HospitaDataSearch = () => {
             setSelectedPageHospital(pageNumber);
         }
     };
-  
-      // Result Load Code
-      useEffect(() => {
+
+    // Result Load Code
+    useEffect(() => {
+
+        let myKeys = window.location.search;
+        // console.log("k & V :", myKeys);
+        let urlParams = new URLSearchParams(myKeys);
+        let param1 = urlParams.get("search");
+        let filterParams = new URLSearchParams(param1);
+        let type = filterParams.get("type");
+        // let searchFor = filterParams.get("searchFor");
+        // let organ = filterParams.get("organ");
+        let zipCode = filterParams.get("zip_code");
+
         async function loadResults() {
-          const data = await  fetchPaginatedHospitals(pageHospital, perPageHospital);
-          setHospitals(data.results);
-          setTotalDataCountHospital(data.count);
-          setTotalPagesHospital(Math.ceil(data.count / perPageHospital));
-          if (data.results && data.results.length > 0) {
-            setSelectedItemIDHospital(data.results[0].id);
-          }
-          setIsLoading(false);
+            const data = await fetchPaginatedHospitals(pageHospital, perPageHospital,zipCode);
+            setHospitals(data.results);
+            setTotalDataCountHospital(data.count);
+            setTotalPagesHospital(Math.ceil(data.count / perPageHospital));
+            if (data.results && data.results.length > 0) {
+                setSelectedItemIDHospital(data.results[0].id);
+            }
+            setIsLoading(false);
         }
         loadResults();
-      }, [pageHospital,perPageHospital]);
+    }, [pageHospital, perPageHospital]);
 
     return (
         <div>
@@ -1064,7 +1130,7 @@ const HospitaDataSearch = () => {
                                 onRequestClose={closeCompareModal}
                                 contentLabel="Compare Doctors"
                             >
-                                <div className='relative sm:p-10 mt-16 mx-auto max-w-[1400px] mx-auto'>
+                                <div className='relative sm:p-10 mt-16 mx-auto max-w-[1400px]'>
                                     <div className='absolute top-4 left-12 font-bold'>
                                         {showCheckboxes && (
                                             <button
@@ -1083,21 +1149,21 @@ const HospitaDataSearch = () => {
                                                 <div className="font-semibold text-[#101426]">Doctor</div>
                                             </div>
 
-                                            <div className="flex justify-start items-center py-10 gap-4 sm:h-[140px]">
+                                            <div className="flex justify-start items-center py-10 gap-4 sm:h-[110px]">
                                                 <div>
                                                     <img className="min-w-[50px]" src="https://househealthinc.com/wp-content/themes/blocksy-child/images/specialities.svg" />
                                                 </div>
                                                 <div className="font-semibold text-[#101426]">Specialities</div>
                                             </div>
 
-                                            <div className="hidden flex items-center justify-start gap-4 px-10 py-5 sm:h-[140px]">
+                                            <div className="hidden flex items-center justify-start gap-4 px-10 py-5 sm:h-[110px]">
                                                 <div>
                                                     <img className="min-w-[50px]" src="../images/search/affiliations.svg" />
                                                 </div>
                                                 <div className="font-semibold text-[#101426]">Board Certifications</div>
                                             </div>
 
-                                            <div className="flex items-center justify-start gap-4 px-0 py-5 sm:h-[140px]">
+                                            <div className="flex items-center justify-start gap-4 px-0 py-5 sm:h-[110px]">
                                                 <div>
                                                     <img className="min-w-[50px]" src="../images/search/affiliations.svg" />
                                                 </div>
@@ -1143,7 +1209,7 @@ const HospitaDataSearch = () => {
                                             {/* Specialities Row */}
                                             <div className="flex items-center gap-4">
                                                 {selectedDoctors.map((doctor, index) => (
-                                                    <div key={index} className={`flex items-center sm:min-w-[340px] h-[140px] px-4 ${index % 2 === 0 ? 'bg-[#f7f9fc]' : 'bg-white'}`}>
+                                                    <div key={index} className={`flex items-center sm:min-w-[340px] h-[110px] px-4 ${index % 2 === 0 ? 'bg-[#f7f9fc]' : 'bg-white'}`}>
                                                         <p>{`${capitalizeString(doctor.primary_speciality)}`} {doctor.secondary_specialities.length > 0 && (<span>, {`${doctor.secondary_specialities}`}</span>)}</p>
                                                     </div>
                                                 ))}
@@ -1151,7 +1217,7 @@ const HospitaDataSearch = () => {
 
                                             <div className="flex items-center justify-between gap-4">
                                                 {selectedDoctors.map((doctor, index) => (
-                                                    <div key={index} className={`flex items-center sm:min-w-[340px] min-h-[140px] px-4 ${index % 2 === 0 ? 'bg-[#f7f9fc]' : 'bg-white'}`}>
+                                                    <div key={index} className={`flex items-center sm:min-w-[340px] min-h-[110px] px-4 ${index % 2 === 0 ? 'bg-[#f7f9fc]' : 'bg-white'}`}>
                                                         <p>Ascension Genesys Hospital</p>
                                                     </div>
                                                 ))}
@@ -1160,7 +1226,7 @@ const HospitaDataSearch = () => {
                                             {/* Board Certifications */}
                                             <div className="flex justify-between text-left hidden">
                                                 {selectedDoctors.map((doctor, index) => (
-                                                    <div key={index} className={`sm:min-w-[340px] min-h-[140px] px-4 py-5 min-w-[25%] items-center flex ${index % 2 === 0 ? 'bg-[#f7f9fc]' : 'bg-white'}`}>
+                                                    <div key={index} className={`sm:min-w-[340px] min-h-[110px] px-4 py-5 min-w-[25%] items-center flex ${index % 2 === 0 ? 'bg-[#f7f9fc]' : 'bg-white'}`}>
                                                         <div>
                                                             <p>Sample certification name</p>
                                                         </div>
@@ -1171,7 +1237,7 @@ const HospitaDataSearch = () => {
                                             {/* Education & Training */}
                                             <div className="flex justify-between text-left gap-4">
                                                 {selectedDoctors.map((doctor, index) => (
-                                                    <div key={index} className={`flex items-center sm:min-w-[340px] min-h-[140px] px-4 ${index % 2 === 0 ? 'bg-[#f7f9fc]' : 'bg-white'}`}>
+                                                    <div key={index} className={`flex items-center sm:min-w-[340px] min-h-[130px] px-4 ${index % 2 === 0 ? 'bg-[#f7f9fc]' : 'bg-white'}`}>
                                                         <p>{`${capitalizeString(doctor.medical_school)}`}, {`${capitalizeString(doctor.graduation_year)}`}</p>
                                                     </div>
                                                 ))}
@@ -1186,6 +1252,7 @@ const HospitaDataSearch = () => {
                         {/* Filter Form Result Start here */}
                         <Modal className='transition duration-150 ease-out md:ease-in max-w-[100%] sm:w-[485px] bg-[#fff] px-6 py-0 border rounded-md shadow-md mt-4 fixed right-2 top-24 z-50'
                             isOpen={filterModalIsOpen}
+                            onRequestClose={closeFilterModal}
                             contentLabel="Filter Doctors">
 
                             {showPopup && <FilterPopup
@@ -1286,8 +1353,8 @@ const HospitaDataSearch = () => {
                                                 className={`rounded mb-2 sm:rounded-[0px] searchresultLists ease-in min-h-[150px] duration-300 cursor-pointer bg-[#f7f9fc] pl-8 pr-5 pt-4 pb-4 border-l-[6px] 
                           ${
                                                     // console.log(doctor.id),
-                                                    defaultSelectedItemID === doctor.id ? 'border-[#6e2feb]' : 'border-transparent'
-                                                    } ${selectedItemID === doctor.id ? 'bg-[#fff]' : ''}`
+                                                    defaultSelectedItemIdDoctor === doctor.id ? 'border-[#6e2feb]' : 'border-transparent'
+                                                    } ${selectedItemIdDoctor === doctor.id ? 'bg-[#fff]' : ''}`
                                                 }>
                                                 <div className="flex justify-between items-center w-full mb-3 relative">
                                                     <div className='absolute -left-6 top-0'>
@@ -1318,7 +1385,7 @@ const HospitaDataSearch = () => {
                                                             onClick={() => toggleZipCode(doctor.id)}
                                                             className="span_violet rounded-md bg-[#FFF7E6] text-[#D46B08] border py-1 px-2"
                                                         >
-                                                            {doctor.secondary_specialities}
+                                                            {capitalizeString(doctor.secondary_specialities.toString())}
                                                         </span>
                                                     )}
                                                 </div>
@@ -1339,28 +1406,50 @@ const HospitaDataSearch = () => {
                                             </div>
                                         ))}
 
-                                         {/* ###Filter Pagination Start*/}
-                          <div className='hwFitlerPagination mt-4 text-center'>
-                            <div className='flex p-4 items-center justify-center gap-1 border-gray-200'>
-                              <button
-                              className='inline-flex shadow-md items-center rounded-md text-sm px-3 py-2 text-gray-600 ring-1 hover:text-[#fff] ring-inset bg-[#f7f9fc] hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0' 
-                              onClick={loadPrevious} disabled={page === 1}>Prev</button>
-                              
-                              {generatePageNumbers().map((pageNumber) => (
-                                <button 
-                                style={{backgroundColor:selectedPage===pageNumber ?'#6E2FEB':'initial',
-                                        color:selectedPage===pageNumber ? 'white' :'initial'}}
-                                className='
-                                  relative inline-flex shadow-md items-center px-4 py-2 text-sm font-semibold text-gray-900 hover:text-[#fff] bg-[#f7f9fc] rounded-md ring-1 ring-inset ring-gray-100 hover:bg-[#6E2FEB] focus:z-20 focus:outline-offset-0
-                                  ' key={pageNumber} onClick={() => handlePageClick(pageNumber)}>{pageNumber}</button>
-                              ))}
-                              <p className='hidden'><span className='
-                              relative shadow-md inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 rounded-md hover:bg-gray-50 focus:z-20 focus:outline-offset-0'>...</span> {totalDataCount}</p>
-                              <button 
-                              className='shadow-md inline-flex items-center bg-[#f7f9fc] rounded-md text-sm px-3 py-2 ring-1 ring-inset hover:text-[#fff] text-grey-600 hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
-                              onClick={loadMore} disabled={page === totalPages}>Next</button>
-                            </div>
-                          </div>{/* ###Filter Pagination End*/}
+                                        {/* ###Filter Pagination Start*/}
+                                        <div className='hwFitlerPagination mt-4 text-center'>
+                                        {shouldShowFiltrationDoctors && (
+  <div className='flex p-4 items-center justify-center gap-1 border-gray-200'>
+    <button
+      className='inline-flex shadow-md items-center rounded-md text-sm px-3 py-2 text-gray-600 ring-1 hover:text-[#fff] ring-inset bg-[#f7f9fc] hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
+      onClick={loadPrevious}
+      disabled={page === 1}
+    >
+      Prev
+    </button>
+
+    {generatePageNumbers().map((pageNumber) => (
+      <button
+        style={{
+          backgroundColor: selectedPage === pageNumber ? '#6E2FEB' : 'initial',
+          color: selectedPage === pageNumber ? 'white' : 'initial'
+        }}
+        className='relative inline-flex shadow-md items-center px-4 py-2 text-sm font-semibold text-gray-900 hover:text-[#fff] bg-[#f7f9fc] rounded-md ring-1 ring-inset ring-gray-100 hover:bg-[#6E2FEB] focus:z-20 focus:outline-offset-0'
+        key={pageNumber}
+        onClick={() => handlePageClick(pageNumber)}
+      >
+        {pageNumber}
+      </button>
+    ))}
+
+    <p className='hidden'>
+      <span className='relative shadow-md inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 rounded-md hover:bg-gray-50 focus:z-20 focus:outline-offset-0'>
+        ...
+      </span>{' '}
+      {totalDataCount}
+    </p>
+
+    <button
+      className='shadow-md inline-flex items-center bg-[#f7f9fc] rounded-md text-sm px-3 py-2 ring-1 ring-inset hover:text-[#fff] text-grey-600 hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
+      onClick={loadMore}
+      disabled={page === totalPages}
+    >
+      Next
+    </button>
+  </div>
+)}
+
+                                        </div>{/* ###Filter Pagination End*/}
 
                                         <div className='filterCompareBtns sticky bottom-0 left-4 right-10 z-1 bg-[#fff] p-4 max-w-[480px] -shadow-sm'>
                                             <div className='flex items-center justify-end gap-[10px]'>
@@ -1382,11 +1471,11 @@ const HospitaDataSearch = () => {
 
                                     {/* ###Filter Details Start*/}
                                     <div className='p-10 basis-2/3 sm:sticky top-[30px] ease-in duration-300'>
-                                        {selectedItemID && (
+                                        {selectedItemIdDoctor && (
                                             <div>
                                                 {doctorsData.map((doctor, index) => (
                                                     // console.log(doctor.id,selectedItemID),
-                                                    doctor.id === selectedItemID && (
+                                                    doctor.id === selectedItemIdDoctor && (
                                                         <div key={index} className='detailsInner w-full'>
                                                             <div className="py-4 detailsTitle text-[#101426]">
                                                                 <h2 className="text-3xl font-bold m-b-3 text-[#101426]">
@@ -1413,7 +1502,7 @@ const HospitaDataSearch = () => {
                                                                             <li className='text-[#101426]'><span>{capitalizeString(doctor.primary_speciality)}</span>
                                                                                 {doctor.secondary_specialities.length > 0 && (
                                                                                     <span>
-                                                                                        , {doctor.secondary_specialities}
+                                                                                        , {capitalizeString(doctor.secondary_specialities.toString())}
                                                                                     </span>
                                                                                 )}</li>
                                                                         </ul>
@@ -1514,9 +1603,14 @@ const HospitaDataSearch = () => {
                                         </div>
                                         <div className='mt-1'>
                                             <p>Specialities type</p>
-                                            <p className='font-bold'>
-                                                {`${capitalizeString(selectedDoctor.primary_speciality)}`}
-                                                <>, </>{`${selectedDoctor.secondary_specialities}`}</p>
+                                            <p className='font-bold'>{`${capitalizeString(selectedDoctor.primary_speciality)}`}
+                                                {selectedDoctor.secondary_specialities.length > 0 && (
+                                                    <span>, {selectedDoctor.secondary_specialities.map((speciality, index) => (
+                                                        <span key={index}>{`${capitalizeString(speciality)}`}{index !== selectedDoctor.secondary_specialities.length - 1 ? ', ' : ''}</span>
+                                                    ))}
+                                                    </span>
+                                                )}
+                                            </p>
                                         </div>
                                     </div>
 
@@ -1908,28 +2002,50 @@ const HospitaDataSearch = () => {
                                         {/* working  */}
 
 
-                                                  {/* ###Filter Pagination Start*/}
-                          <div className='hwFitlerPagination mt-4 text-center'>
-                            <div className='flex p-4 items-center justify-center gap-1 border-gray-200'>
-                              <button
-                              className='inline-flex shadow-md items-center rounded-md text-sm px-3 py-2 text-gray-600 ring-1 hover:text-[#fff] ring-inset bg-[#f7f9fc] hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0' 
-                              onClick={loadPreviousHospital} disabled={pageHospital === 1}>Prev</button>
-                              
-                              {generatePageNumbersHospital().map((pageNumber) => (
-                                <button 
-                                style={{backgroundColor:selectedPageHospital===pageNumber ?'#6E2FEB':'initial',
-                                        color:selectedPageHospital===pageNumber ? 'white' :'initial'}}
-                                className='
-                                  relative inline-flex shadow-md items-center px-4 py-2 text-sm font-semibold text-gray-900 hover:text-[#fff] bg-[#f7f9fc] rounded-md ring-1 ring-inset ring-gray-100 hover:bg-[#6E2FEB] focus:z-20 focus:outline-offset-0
-                                  ' key={pageNumber} onClick={() => handlePageClickHospital(pageNumber)}>{pageNumber}</button>
-                              ))}
-                              <p className='hidden'><span className='
-                              relative shadow-md inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 rounded-md hover:bg-gray-50 focus:z-20 focus:outline-offset-0'>...</span> {totalDataCountHospital}</p>
-                              <button 
-                              className='shadow-md inline-flex items-center bg-[#f7f9fc] rounded-md text-sm px-3 py-2 ring-1 ring-inset hover:text-[#fff] text-grey-600 hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
-                              onClick={loadMoreHospital} disabled={pageHospital === totalPagesHospital}>Next</button>
-                            </div>
-                          </div>{/* ###Filter Pagination End*/}
+                                        {/* ###Filter Pagination Start*/}
+                                        <div className='hwFitlerPagination mt-4 text-center'>
+                                        {shouldShowFiltrationHospitals && (
+  <div className='flex p-4 items-center justify-center gap-1 border-gray-200'>
+    <button
+      className='inline-flex shadow-md items-center rounded-md text-sm px-3 py-2 text-gray-600 ring-1 hover:text-[#fff] ring-inset bg-[#f7f9fc] hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
+      onClick={loadPrevious}
+      disabled={page === 1}
+    >
+      Prev
+    </button>
+
+    {generatePageNumbers().map((pageNumber) => (
+      <button
+        style={{
+          backgroundColor: selectedPage === pageNumber ? '#6E2FEB' : 'initial',
+          color: selectedPage === pageNumber ? 'white' : 'initial'
+        }}
+        className='relative inline-flex shadow-md items-center px-4 py-2 text-sm font-semibold text-gray-900 hover:text-[#fff] bg-[#f7f9fc] rounded-md ring-1 ring-inset ring-gray-100 hover:bg-[#6E2FEB] focus:z-20 focus:outline-offset-0'
+        key={pageNumber}
+        onClick={() => handlePageClick(pageNumber)}
+      >
+        {pageNumber}
+      </button>
+    ))}
+
+    <p className='hidden'>
+      <span className='relative shadow-md inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 rounded-md hover:bg-gray-50 focus:z-20 focus:outline-offset-0'>
+        ...
+      </span>{' '}
+      {totalDataCount}
+    </p>
+
+    <button
+      className='shadow-md inline-flex items-center bg-[#f7f9fc] rounded-md text-sm px-3 py-2 ring-1 ring-inset hover:text-[#fff] text-grey-600 hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
+      onClick={loadMore}
+      disabled={page === totalPages}
+    >
+      Next
+    </button>
+  </div>
+)}
+
+                                        </div>{/* ###Filter Pagination End*/}
 
                                         <div className='ease-in-out duration-500 filterCompareBtns sticky bottom-0 left-4 right-10 z-1 bg-[#fff] p-4 max-w-[480px] -shadow-sm'>
                                             <div className='flex items-center justify-end gap-[10px]'>
@@ -2185,6 +2301,7 @@ const HospitaDataSearch = () => {
 
                         <Modal className='transition duration-150 ease-out md:ease-in max-w-[100%] sm:w-[485px] bg-[#fff] px-6 py-0 border rounded-md shadow-md mt-4 fixed right-2 top-24 z-50'
                             isOpen={filterModalIsOpen}
+                            onRequestClose={closeFilterModal}
                             contentLabel="Filter Doctors">
 
                             {showPopup || <FilterPopup
@@ -2200,4 +2317,4 @@ const HospitaDataSearch = () => {
         </div>
     );
 };
-export default HospitaDataSearch;
+export default DoctorDataSearch;
