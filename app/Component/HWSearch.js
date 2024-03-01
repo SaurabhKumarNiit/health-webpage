@@ -410,7 +410,7 @@ const HWSearch = () => {
                       />
                     </div>
                   )}
-                  <RiSearchLine className="absolute left-[175px] top-3.5 text-xl text-[#8f9bb3] w-4" />
+                  <RiSearchLine className="absolute left-[175px] top-3.5 text-xl w-4 text-[#8f9bb3]"/>
                   {searchedZipCodes.length > 0 && (
                     <ul className="w-[170px] h-[200px] bg-[#fff] shadow absolute z-40 rounded-md border-slate-500 bg-[#f9f9f9] overflow-scroll">
                       {searchedZipCodes.map((zipCode) => (
