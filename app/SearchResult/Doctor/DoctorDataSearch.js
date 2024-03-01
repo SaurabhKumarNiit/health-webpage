@@ -126,7 +126,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
 
         setTimeout(()=>{
             onCancel();
-        },1000)
+        },500)
     };
 
     const handleOptionClick = (option) => {
