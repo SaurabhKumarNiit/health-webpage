@@ -33,10 +33,12 @@ const HwShareon = (prop) => {
         // Handle Facebook share logic
         console.log('Sharing on Facebook:', shareUrl);
         break;
+
       // case 'pinterest':
       //   // Handle Pinterest share logic
       //   console.log('Sharing on Pinterest:', shareUrl);
       //   break;
+      
       case 'reddit':
         // Handle Reddit share logic
         console.log('Sharing on Reddit:', shareUrl);
