@@ -124,9 +124,9 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
         // Call applyFilter function with the selected filter options
         applyFilter({ type, organ, searchFor, zipCode, zip_codes });
 
-        setTimeout(()=>{
+        setTimeout(() => {
             onCancel();
-        },100)
+        }, 100)
     };
 
     const handleOptionClick = (option) => {
@@ -1221,9 +1221,6 @@ const DoctorDataSearch = () => {
                                                         in <span className='font-bold text-[#101426CC]'>ZipCode:{currentZipCode1}</span>
                                                     </>
                                                 )}
-                                                {!isLoading1 || doctorsData.length === 0 && (
-                                                    <p className='text-red-500 font-bold'>Data not found</p>
-                                                )}
                                             </>
                                         )}
                                     </p>
@@ -1359,11 +1356,13 @@ const DoctorDataSearch = () => {
                                                 ))}
                                                 <p className='hidden'><span className='
                               relative shadow-md inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 rounded-md hover:bg-gray-50 focus:z-20 focus:outline-offset-0'>...</span> {totalDataCount}</p>
+                              
                                                 <button
                                                     className='shadow-md inline-flex items-center bg-[#f7f9fc] rounded-md text-sm px-3 py-2 ring-1 ring-inset hover:text-[#fff] text-grey-600 hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
                                                     onClick={loadMore} disabled={page === totalPages}>Next</button>
                                             </div>
-                                        </div>{/* ###Filter Pagination End*/}
+                                        </div>
+                                        {/* ###Filter Pagination End*/}
 
                                         <div className='filterCompareBtns sticky bottom-0 left-4 right-10 z-1 bg-[#fff] p-4 max-w-[480px] -shadow-sm'>
                                             <div className='flex items-center justify-end gap-[10px]'>

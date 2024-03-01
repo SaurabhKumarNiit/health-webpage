@@ -39,7 +39,7 @@ const HWSearch = () => {
     // You can perform any logic here based on the selected type
 
     console.log('Selected Type :', selectedType);
-     setType(selectedType);
+    setType(selectedType);
     console.log("Selected Type:", selectedType);
     setType(selectedType);
 
@@ -87,7 +87,7 @@ const HWSearch = () => {
   useEffect(() => {
     const fetchLocalData = () => {
       let dataToFetch = [];
-  
+
       if (selectedMutiple === "Doctor") {
         dataToFetch = jsonData.Doctor;
         setDoctorDataFetched(true); // Mark data as fetched for Doctor
@@ -97,12 +97,12 @@ const HWSearch = () => {
         setHospitalDataFetched(true); // Mark data as fetched for Hospital
         setDoctorDataFetched(false); // Hide doctor data
       }
-  
+
       setZipCodes(dataToFetch);
       setApiDataLoaded(true);
       setLoadingZip(false);
     };
-  
+
     fetchLocalData();
   }, [selectedMutiple, doctorDataFetched, hospitalDataFetched]);
 
@@ -129,13 +129,13 @@ const HWSearch = () => {
   };
 
   const handleRemoveZipCode = (index, event) => {
-    event.preventDefault(); 
+    event.preventDefault();
     const removedZipCode = selectedZipCodes[index];
-  
+
     setSelectedZipCodes((prevSelectedZipCodes) =>
       prevSelectedZipCodes.filter((_, i) => i !== index)
     );
-  
+
     const newCounters = { ...counters };
     delete newCounters[removedZipCode];
     setCounters(newCounters);
@@ -195,7 +195,7 @@ const HWSearch = () => {
     setError("");
     return true;
   };
-  
+
   const handleSubmit = () => {
     const queryParams = {
       type: type,
@@ -238,11 +238,10 @@ const HWSearch = () => {
       <div className="flex gap-4 border-b px-4 sm:px-8">
         <div
           className={`
-          sm:px-0 text-sm sm:text-base py-2 text-${
-            selectedTab === 0
+          sm:px-0 text-sm sm:text-base py-2 text-${selectedTab === 0
               ? "rgba(16, 20, 38, 0.8)"
               : "#6e2feb font-bold border-b-2 border-[#6e2feb]"
-          } text-base cursor-pointer`}
+            } text-base cursor-pointer`}
           onClick={() => handleTabClick(1)}
         >
           <span
@@ -255,11 +254,10 @@ const HWSearch = () => {
         </div>
         <div
           className={`
-          sm:px-0 text-sm sm:text-base ml-4 py-2 text-${
-            selectedTab === 1
+          sm:px-0 text-sm sm:text-base ml-4 py-2 text-${selectedTab === 1
               ? "rgba(16, 20, 38, 0.8)"
               : "#6e2feb font-bold border-b-2 border-[#6e2feb]"
-          } text-base cursor-pointer`}
+            } text-base cursor-pointer`}
           onClick={() => handleTabClick(0)}
         >
           <span
@@ -376,41 +374,41 @@ const HWSearch = () => {
                 <Box
                   component="form"
                   sx={{
-                    "& > :not(style)": { m: 1},
+                    "& > :not(style)": { m: 1 },
                   }}
                   noValidate
                   autoComplete="off"
                 >
-            <input
-              className="relative bg-[#f7f9fc] sm:max-w-[210px] h-[48px] max-w-[145px] rounded-md p-3 shadow-none focus:shadow-none"
-              type="text"
-              id="outlined-basic"
-              placeholder="Select ZIP Codes"
-              variant="outlined"
-              value={selectedZip}
-              onChange={handleInputChange}
-              onFocus={handleInputFocus}
-              style={{
-                border: selectedZip === 'input' ? '1px solid #C5CEE0' : '1px solid rgb(197, 206, 224)',
-                position: 'relative', // Ensure proper positioning
-              }}
-              />
+                  <input
+                    className="relative bg-[#f7f9fc] sm:max-w-[210px] h-[48px] max-w-[145px] rounded-md p-3 shadow-none focus:shadow-none"
+                    type="text"
+                    id="outlined-basic"
+                    placeholder="Select ZIP Codes"
+                    variant="outlined"
+                    value={selectedZip}
+                    onChange={handleInputChange}
+                    onFocus={handleInputFocus}
+                    style={{
+                      border: selectedZip === 'input' ? '1px solid #C5CEE0' : '1px solid rgb(197, 206, 224)',
+                      position: 'relative', // Ensure proper positioning
+                    }}
+                  />
 
-              {loadingZip && !apiDataLoaded && (
-                <div style={{ position: 'absolute', top: '38%', left: '60%', transform: 'translate(-50%, -50%)' }}>
-                  {/* {selectedMutiple === "Doctor" && (
+                  {loadingZip && !apiDataLoaded && (
+                    <div style={{ position: 'absolute', top: '38%', left: '60%', transform: 'translate(-50%, -50%)' }}>
+                      {/* {selectedMutiple === "Doctor" && (
                     <p>Loading Doctor data...</p>
                   )} */}
-                  {/* {selectedMutiple === "Hospital" && (
+                      {/* {selectedMutiple === "Hospital" && (
                     // <p>Loading Hospital data...</p>
                   )} */}
-                  <ClipLoader
-                    color={"#123abc"}
-                    size={10}
-                    loading={true}
-                  />
-                </div>
-              )}
+                      <ClipLoader
+                        color={"#123abc"}
+                        size={10}
+                        loading={true}
+                      />
+                    </div>
+                  )}
                   <RiSearchLine className="absolute left-[182px] top-3.5 text-xl text-[#8f9bb3] w-4" />
                   {searchedZipCodes.length > 0 && (
                     <ul className="w-[170px] h-[200px] bg-[#fff] shadow absolute z-40 rounded-md border-slate-500 bg-[#f9f9f9] overflow-scroll">
@@ -431,27 +429,27 @@ const HWSearch = () => {
                     </ul>
                   )}
                   <ul className="absolute flex gap-1 items-center mt-1 z-10">
-  {selectedZipCodes.slice(0, 2).map((zipCode, index) => (
-    <li
-      className="bg-[#f7f9f7] rounded border px-2 py-1 text-[#101426]"
-      key={index}
-    >
-      {zipCode}{" "}
-      {counters[zipCode] > 1 && (
-        <span>+{counters[zipCode]}</span>
-      )}
-      <button onClick={(event) => handleRemoveZipCode(index, event)}>
-        <IoClose className="relative top-1 text-xl text-[#101426] fade-in-out duration-300 baseline-1 font-semibold" />
-      </button>
-    </li>
-  ))}
-  <li className="text-[#6E2FEB]">
-    <MessageComponent
-      counters={counters}
-      className="text-[#6E2FEB] font-bold"
-    />
-  </li>
-</ul>
+                    {selectedZipCodes.slice(0, 2).map((zipCode, index) => (
+                      <li
+                        className="bg-[#f7f9f7] rounded border px-2 py-1 text-[#101426]"
+                        key={index}
+                      >
+                        {zipCode}{" "}
+                        {counters[zipCode] > 1 && (
+                          <span>+{counters[zipCode]}</span>
+                        )}
+                        <button onClick={(event) => handleRemoveZipCode(index, event)}>
+                          <IoClose className="relative top-1 text-xl text-[#101426] fade-in-out duration-300 baseline-1 font-semibold" />
+                        </button>
+                      </li>
+                    ))}
+                    <li className="text-[#6E2FEB]">
+                      <MessageComponent
+                        counters={counters}
+                        className="text-[#6E2FEB] font-bold"
+                      />
+                    </li>
+                  </ul>
                 </Box>
               </li>
             </ul>
@@ -466,14 +464,11 @@ const HWSearch = () => {
                         Organ
                       </h3>
                       <br />
-                      {/* --------------------- */}
-                      {/* Render 4 boxes for Transplant */}
-                      {/* <FilterBox title="" /> */}
                     </div>
                     <div>
                       <div
                         className="mt-[50px] text-center"
-                        style={{marginLeft: "-50px" }}
+                        style={{ marginLeft: "-50px" }}
                       >
                         <div className="flex flex-wrap gap-4 items-baseline">
                           {getOrganOptions().map((option) => (
@@ -481,17 +476,17 @@ const HWSearch = () => {
                               style={{
                                 border:
                                   (type === "transplant" && selectImage === option) ||
-                                  (type === "oncology" && selectImage1 === option)
+                                    (type === "oncology" && selectImage1 === option)
                                     ? "1px solid #C8ADFF"
                                     : "1px solid #C5CEE0",
                                 color:
                                   (type === "transplant" && selectImage === option) ||
-                                  (type === "oncology" && selectImage1 === option)
+                                    (type === "oncology" && selectImage1 === option)
                                     ? "#6E2FEB"
                                     : "#101426",
                                 backgroundColor:
                                   (type === "transplant" && selectImage === option) ||
-                                  (type === "oncology" && selectImage1 === option)
+                                    (type === "oncology" && selectImage1 === option)
                                     ? "#F5F0FF"
                                     : "white",
                                 padding: "20px 5px",
@@ -505,25 +500,25 @@ const HWSearch = () => {
                               key={option}
                               onClick={() => handleOrganSelection(option)}
                             >
-                          <img
-                            className=""
-                            src={
-                              (type === "transplant" && selectImage === option) ||
-                              (type === "oncology" && selectImage1 === option)
-                                ? `../images/search/${option}_active.svg`
-                                : `../images/search/${option}.svg`
-                            }
-                            alt="React Image"
-                          />
-                          {option.charAt(0).toUpperCase() + option.slice(1)}
-                        </button>
-                      ))}
-                      </div>
+                              <img
+                                className=""
+                                src={
+                                  (type === "transplant" && selectImage === option) ||
+                                    (type === "oncology" && selectImage1 === option)
+                                    ? `../images/search/${option}_active.svg`
+                                    : `../images/search/${option}.svg`
+                                }
+                                alt="React Image"
+                              />
+                              {option.charAt(0).toUpperCase() + option.slice(1)}
+                            </button>
+                          ))}
+                        </div>
 
                       </div>
                     </div>
                   </>
-                  
+
                 )}
               {selectedOption === "Transplant" ||
                 selectedMutiple === "Hospital" || (
@@ -533,27 +528,26 @@ const HWSearch = () => {
             </div>
           ) : (
             <div className="flex flex-wrap">
-              <div className="w-[50%] p-4">{/* <FilterBox title="" /> */}</div>
+              <div className="w-[50%] p-4"></div>
             </div>
           )}
         </div>
       )}
 
       <div className="px-4 sm:px-8 mb-2">
-      <Link
-        href={{
-          pathname: searchFor === 'Doctor' ? '/SearchResult' : '/Searchresults',
-          query: {
-            search: `type=${type}&searchFor=${searchFor}${searchFor === 'Doctor' ? `&organ=${organ}` : ''}${
-              selectedZip ? `&zip_code=${selectedZip}` : ''
-            }${selectedZipCodes.length > 0 ? `&zip_code=${selectedZipCodes.join(',')}` : ''}`,
-          },
-        }}
-      >
-        <button className="inline-block text-center px-3 py-3 rounded-md bg-[#6e2feb] shadow-2xl hover:bg-[#3c1faf] ease-in duration-300 font-bold text-[#fff] cursor-pointer w-[100%]">
-          Search
-        </button>
-      </Link>
+        <Link
+          href={{
+            pathname: searchFor === 'Doctor' ? '/SearchResult' : '/Searchresults',
+            query: {
+              search: `type=${type}&searchFor=${searchFor}${searchFor === 'Doctor' ? `&organ=${organ}` : ''}${selectedZip ? `&zip_code=${selectedZip}` : ''
+                }${selectedZipCodes.length > 0 ? `&zip_code=${selectedZipCodes.join(',')}` : ''}`,
+            },
+          }}
+        >
+          <button className="inline-block text-center px-3 py-3 rounded-md bg-[#6e2feb] shadow-2xl hover:bg-[#3c1faf] ease-in duration-300 font-bold text-[#fff] cursor-pointer w-[100%]">
+            Search
+          </button>
+        </Link>
       </div>
 
       <div className=""></div>
