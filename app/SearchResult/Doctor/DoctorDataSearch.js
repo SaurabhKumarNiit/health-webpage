@@ -123,7 +123,10 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
     const handleApplyFilter = () => {
         // Call applyFilter function with the selected filter options
         applyFilter({ type, organ, searchFor, zipCode, zip_codes });
-        onCancel();
+
+        setTimeout(()=>{
+            onCancel();
+        },1000)
     };
 
     const handleOptionClick = (option) => {
@@ -477,7 +480,7 @@ const DoctorDataSearch = () => {
                 setDataState(true);
 
                 setIsLoading(false);
-                togglePopup(); // Close the popup after applying the filter
+                cancelFilter(); // Close the popup after applying the filter
             } catch (error) {
                 console.error('Error fetching data:', error);
             }

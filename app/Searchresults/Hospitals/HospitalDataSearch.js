@@ -124,7 +124,9 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
         // Call applyFilter function with the selected filter options
         applyFilter({ type, organ, searchFor, zipCode, zip_codes });
 
-        onCancel();
+        setTimeout(()=>{
+            onCancel();
+        },2000)
     };
 
     const handleOptionClick = (option) => {
@@ -478,7 +480,7 @@ const HospitaDataSearch = () => {
                 setDataState(true);
 
                 setIsLoading(false);
-                togglePopup(); // Close the popup after applying the filter
+                cancelFilter(); // Close the popup after applying the filter
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -1184,7 +1186,6 @@ const HospitaDataSearch = () => {
                         {/* Filter Form Result Start here */}
                         <Modal className='transition duration-150 ease-out md:ease-in max-w-[100%] sm:w-[485px] bg-[#fff] px-6 py-0 border rounded-md shadow-md mt-4 fixed right-2 top-24 z-50'
                             isOpen={filterModalIsOpen}
-                            onRequestClose={closeFilterModal}
                             contentLabel="Filter Doctors">
 
                             {showPopup && <FilterPopup
@@ -2184,7 +2185,6 @@ const HospitaDataSearch = () => {
 
                         <Modal className='transition duration-150 ease-out md:ease-in max-w-[100%] sm:w-[485px] bg-[#fff] px-6 py-0 border rounded-md shadow-md mt-4 fixed right-2 top-24 z-50'
                             isOpen={filterModalIsOpen}
-                            onRequestClose={closeFilterModal}
                             contentLabel="Filter Doctors">
 
                             {showPopup || <FilterPopup
