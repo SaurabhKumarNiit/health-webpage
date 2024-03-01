@@ -1287,9 +1287,9 @@ const HospitalDataSearch = () => {
                                                         in <span className='font-bold text-[#101426CC]'>ZipCode:{currentZipCode1}</span>
                                                     </>
                                                 )}
-                                                {!isLoading1 || doctorsData.length === 0 && (
+                                                {/* {!isLoading1 || doctorsData.length === 0 && (
                                                     <p className='text-red-500 font-bold'>Data not found</p>
-                                                )}
+                                                )} */}
                                             </>
                                         )}
                                     </p>
