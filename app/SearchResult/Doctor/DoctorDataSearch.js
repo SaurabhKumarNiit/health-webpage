@@ -1221,6 +1221,9 @@ const DoctorDataSearch = () => {
                                                         in <span className='font-bold text-[#101426CC]'>ZipCode:{currentZipCode1}</span>
                                                     </>
                                                 )}
+                                                {!isLoading1 || doctorsData.length === 0 && (
+                                                    <p className='text-red-500 font-bold'>Data not found</p>
+                                                )}
                                             </>
                                         )}
                                     </p>
@@ -1356,7 +1359,6 @@ const DoctorDataSearch = () => {
                                                 ))}
                                                 <p className='hidden'><span className='
                               relative shadow-md inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 rounded-md hover:bg-gray-50 focus:z-20 focus:outline-offset-0'>...</span> {totalDataCount}</p>
-                              
                                                 <button
                                                     className='shadow-md inline-flex items-center bg-[#f7f9fc] rounded-md text-sm px-3 py-2 ring-1 ring-inset hover:text-[#fff] text-grey-600 hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
                                                     onClick={loadMore} disabled={page === totalPages}>Next</button>
