@@ -401,6 +401,7 @@ const DoctorDataSearch = () => {
     const [shouldShowFiltrationHospitals, setShouldShowFiltrationHospitals] = useState(true);
     const [shouldShowDoctorsData, setShouldShowDoctorsData] = useState(false);
     const [shouldShowHospitalsData, setShouldShowHospitalssData] = useState(false);
+    const [shouldRunEffect, setShouldRunEffect] = useState(false);
 
 
 
@@ -446,7 +447,7 @@ const DoctorDataSearch = () => {
             let organ = filterParams.get("organ");
             let zipCode = filterParams.get("zip_code");
             let zip_codes = filterParams.get("zip_codes")
-            console.log(zipCode);
+            console.log(zipCode , zip_codes);
             setCurrentType(type);
             setCurrentZipCode(zipCode);
             setCurrentZipCode1(zip_codes);
@@ -454,7 +455,10 @@ const DoctorDataSearch = () => {
             setCurrentSearchFor(searchFor);
             // setType(type);
             // searchForValue(searchFor);
-
+          
+            if(zipCode==null && zip_codes==null ){
+                setShouldRunEffect(true);
+            }
             // console.log(type);
             if (searchFor == 'Doctor') {
                 try {
@@ -497,6 +501,12 @@ const DoctorDataSearch = () => {
         setCurrentZipCode1(filterOptions.zip_codes)
         setCurrentOrgan(filterOptions.organ);
         setCurrentSearchFor(filterOptions.searchFor);
+
+        if(filterOptions.zipCode=="" && filterOptions.zip_codes=="" ){
+            setShouldRunEffect(true);
+        }else{
+            setShouldRunEffect(false);
+        }
 
         if (filterOptions.searchFor == 'Doctor') {
             try {
@@ -681,6 +691,8 @@ const DoctorDataSearch = () => {
 
     const [isLoading1, setIsLoading1] = useState(true);
     const [dataLoaded, setDataLoaded] = useState(false);
+
+
 
     const handleFilterValueChange = (filteredType) => {
         console.log(filteredType);
@@ -1049,8 +1061,37 @@ const DoctorDataSearch = () => {
     };
 
     // Result Load Code
+    // useEffect(() => {
+    //     async function loadResults() {
+
+    //         let myKeys = window.location.search;
+    //         // console.log("k & V :", myKeys);
+    //         let urlParams = new URLSearchParams(myKeys);
+    //         let param1 = urlParams.get("search");
+    //         let filterParams = new URLSearchParams(param1);
+    //         // let type = filterParams.get("type");
+    //         // let searchFor = filterParams.get("searchFor");
+    //         // let organ = filterParams.get("organ");
+    //         let zipCode = filterParams.get("zip_code");
+
+    //         const data = await fetchPaginatedDoctors(page, perPage);
+    //         if (!currentZipCode) {
+    //             setDoctors(data.results);
+    //         }
+    //         setTotalDataCount(data.count);
+    //         setTotalPages(Math.ceil(data.count / perPage));
+    //         if (data.results && data.results.length > 0) {
+    //             setSelectedItemID(data.results[0].id);
+    //         }
+    //         setIsLoading(false);
+    //     }
+    //     loadResults();
+    // }, [page, perPage]);
+
     useEffect(() => {
-        async function loadResults() {
+      
+        if (shouldRunEffect) {
+          async function loadResults() {
 
             let myKeys = window.location.search;
             // console.log("k & V :", myKeys);
@@ -1063,9 +1104,9 @@ const DoctorDataSearch = () => {
             let zipCode = filterParams.get("zip_code");
 
             const data = await fetchPaginatedDoctors(page, perPage);
-            if (!currentZipCode) {
+            // if (currentZipCode=='') {
                 setDoctors(data.results);
-            }
+            // }
             setTotalDataCount(data.count);
             setTotalPages(Math.ceil(data.count / perPage));
             if (data.results && data.results.length > 0) {
@@ -1074,7 +1115,10 @@ const DoctorDataSearch = () => {
             setIsLoading(false);
         }
         loadResults();
-    }, [page, perPage]);
+        }
+      
+      }, [shouldRunEffect, page, perPage, currentZipCode]);
+      
 
 
     //   =======================================================Hospital Pagination
