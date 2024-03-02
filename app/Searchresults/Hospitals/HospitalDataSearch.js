@@ -348,7 +348,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
         </div>
     );
 };
-const DoctorDataSearch = () => {
+const HospitalDataSearch = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [doctorsData, setDoctors] = useState([]);
     const [hospitals, setHospitals] = useState([]);
@@ -2348,4 +2348,4 @@ const DoctorDataSearch = () => {
 
     );
 };
-export default DoctorDataSearch;
+export default HospitalDataSearch;
