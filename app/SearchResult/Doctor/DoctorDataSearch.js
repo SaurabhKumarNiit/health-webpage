@@ -1127,12 +1127,9 @@ const DoctorDataSearch = () => {
 
 
             {shouldShowDoctorsData ? (
-                <div className='text-center'>
-                <div className='flex p-4 items-center justify-center border-gray-200 mb-6'>
+                <div className='flex p-4 items-center justify-center border-gray-200'>
                     {/* Display "Data not found" message */}
-                    <img className="min-w-[50px]" src="../images/search/DataNotAvailable.jpg" />
-                </div>
-                <a href='https://health-webpage.vercel.app/' className='shadow-md text-md md:text-lg font-semibold bg-[#6e2feb] text-[#fff] rounded-md px-5 py-4 sm:px-6 sm:py-4 hover:scale-105 duration-500 capitalize'>search again</a>
+                    <h2 style={{ color: 'red', fontWeight: 'bold' }}>Doctors Data not found</h2>
                 </div>
             ) : (
                 <div >
@@ -1304,9 +1301,9 @@ const DoctorDataSearch = () => {
                                                                 in <span className='font-bold text-[#101426CC]'>ZipCode:{currentZipCode1}</span>
                                                             </>
                                                         )}
-                                                        {/* {!isLoading1 || doctorsData.length === 0 && (
+                                                        {!isLoading1 || doctorsData.length === 0 && (
                                                             <p className='text-red-500 font-bold'>Data not found</p>
-                                                        )} */}
+                                                        )}
                                                     </>
                                                 )}
                                             </p>
@@ -1698,12 +1695,9 @@ const DoctorDataSearch = () => {
 
 
             {shouldShowHospitalsData ? (
-                <div className='text-center'>
-                <div className='flex p-4 items-center justify-center border-gray-200 mb-6'>
+                <div className='flex p-4 items-center justify-center border-gray-200'>
                     {/* Display "Data not found" message */}
-                    <img className="min-w-[50px]" src="../images/search/DataNotAvailable.jpg" />
-                </div>
-                <a href='https://health-webpage.vercel.app/' className='shadow-md text-md md:text-lg font-semibold bg-[#6e2feb] text-[#fff] rounded-md px-5 py-4 sm:px-6 sm:py-4 hover:scale-105 duration-500 capitalize'>search again</a>
+                    <h2 style={{ color: 'red', fontWeight: 'bold' }}>Hospitals Data not found</h2>
                 </div>
             ) : (
                 <div >
