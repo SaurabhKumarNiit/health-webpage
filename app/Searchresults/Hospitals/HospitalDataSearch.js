@@ -24,20 +24,10 @@ async function fetchPaginatedDoctors(page, perPage) {
     return data;
 }
 
-async function fetchPaginatedHospitals(page, perPage ,zipcode) {
-    if(zipcode){
-        const response = await fetch(`https://api.coc.houseworksinc.co/api/v1/hospitals?page=${page}&per_page=${perPage}&zip_code=${zipcode}`)
-        const data = await response.json();
-        return data;
-
-    }else{
+async function fetchPaginatedHospitals(page, perPage) {
         const response = await fetch(`https://api.coc.houseworksinc.co/api/v1/hospitals?page=${page}&per_page=${perPage}`)
         const data = await response.json();
         return data;
-
-    }
-
-    // return 'data';
 }
 
 async function fetchDoctors(type, organ, zipCode, zip_codes) {
@@ -1082,7 +1072,7 @@ const DoctorDataSearch = () => {
 
     const handlePageClickHospital = (pageNumber) => {
         if (pageNumber === 'prev' && pageHospital > 1) {
-            if (page > 1) {
+            if (pageHospital > 1) {
                 setPageHospital(pageHospital - 1);
                 setSelectedPageHospital(pageHospital - 1);
             }
@@ -1111,7 +1101,7 @@ const DoctorDataSearch = () => {
         let zipCode = filterParams.get("zip_code");
 
         async function loadResults() {
-            const data = await fetchPaginatedHospitals(pageHospital, perPageHospital,zipCode);
+            const data = await fetchPaginatedHospitals(pageHospital, perPageHospital);
             setHospitals(data.results);
             setTotalDataCountHospital(data.count);
             setTotalPagesHospital(Math.ceil(data.count / perPageHospital));
@@ -1130,7 +1120,7 @@ const DoctorDataSearch = () => {
             {shouldShowDoctorsData ? (
                     <div className='flex p-4 items-center justify-center border-gray-200'>
                     {/* Display "Data not found" message */}
-                    <h2 style={{ color: 'red', fontWeight: 'bold' }}>Data not found</h2>
+                    <h2 style={{ color: 'red', fontWeight: 'bold' }}>Doctors Data not found</h2>
                   </div>
       ) : (
         <div >
@@ -1698,7 +1688,7 @@ const DoctorDataSearch = () => {
 {shouldShowHospitalsData ? (
                     <div className='flex p-4 items-center justify-center border-gray-200'>
                     {/* Display "Data not found" message */}
-                    <h2 style={{ color: 'red', fontWeight: 'bold' }}>Data not found</h2>
+                    <h2 style={{ color: 'red', fontWeight: 'bold' }}>Hospitals Data not found</h2>
                   </div>
       ) : (
         <div >
@@ -1875,12 +1865,12 @@ const DoctorDataSearch = () => {
                                         )}
                                     </p>
                                     <p>
-                                        {doctorsData.length === 0 && (
+                                        {/* {doctorsData.length === 0 && (
                                             <>
                                                 {' '}
                                                 <span className='font-bold text-red-500 flex justify-center'>Data not found</span>
                                             </>
-                                        )}
+                                        )} */}
                                     </p>
                                 </div>
                                 {/* HW Filter Top Right */}
@@ -2034,21 +2024,21 @@ const DoctorDataSearch = () => {
   <div className='flex p-4 items-center justify-center gap-1 border-gray-200'>
     <button
       className='inline-flex shadow-md items-center rounded-md text-sm px-3 py-2 text-gray-600 ring-1 hover:text-[#fff] ring-inset bg-[#f7f9fc] hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
-      onClick={loadPrevious}
-      disabled={page === 1}
+      onClick={loadPreviousHospital}
+      disabled={pageHospital === 1}
     >
       Prev
     </button>
 
-    {generatePageNumbers().map((pageNumber) => (
+    {generatePageNumbersHospital().map((pageNumber) => (
       <button
         style={{
-          backgroundColor: selectedPage === pageNumber ? '#6E2FEB' : 'initial',
-          color: selectedPage === pageNumber ? 'white' : 'initial'
+          backgroundColor: selectedPageHospital === pageNumber ? '#6E2FEB' : 'initial',
+          color: selectedPageHospital === pageNumber ? 'white' : 'initial'
         }}
         className='relative inline-flex shadow-md items-center px-4 py-2 text-sm font-semibold text-gray-900 hover:text-[#fff] bg-[#f7f9fc] rounded-md ring-1 ring-inset ring-gray-100 hover:bg-[#6E2FEB] focus:z-20 focus:outline-offset-0'
         key={pageNumber}
-        onClick={() => handlePageClick(pageNumber)}
+        onClick={() => handlePageClickHospital(pageNumber)}
       >
         {pageNumber}
       </button>
@@ -2058,13 +2048,13 @@ const DoctorDataSearch = () => {
       <span className='relative shadow-md inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 rounded-md hover:bg-gray-50 focus:z-20 focus:outline-offset-0'>
         ...
       </span>{' '}
-      {totalDataCount}
+      {totalDataCountHospital}
     </p>
 
     <button
       className='shadow-md inline-flex items-center bg-[#f7f9fc] rounded-md text-sm px-3 py-2 ring-1 ring-inset hover:text-[#fff] text-grey-600 hover:bg-[#6E2FEB] ring-gray-100 focus:z-20 focus:outline-offset-0'
-      onClick={loadMore}
-      disabled={page === totalPages}
+      onClick={loadMoreHospital}
+      disabled={pageHospital === totalPagesHospital}
     >
       Next
     </button>
