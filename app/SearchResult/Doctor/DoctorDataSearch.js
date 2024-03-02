@@ -1063,7 +1063,7 @@ const DoctorDataSearch = () => {
             let zipCode = filterParams.get("zip_code");
 
             const data = await fetchPaginatedDoctors(page, perPage);
-            if (!zipCode) {
+            if (!currentZipCode) {
                 setDoctors(data.results);
             }
             setTotalDataCount(data.count);
