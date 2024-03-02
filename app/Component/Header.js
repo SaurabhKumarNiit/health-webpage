@@ -27,7 +27,7 @@ const Header = () => {
   return (
     <header className={`sticky top-0 z-50 ${isSticky ? 'bg-[#f9f9f9]' : 'bg-[#fff]'}`}>
       
-      <div className='site_header w-[1140px] mx-auto px-3 sm:px-4 py-4 flex justify-between text-[#222] items-center'>
+      <div class="site_header w-[1140px] max-w-[100%] mx-auto px-3 sm:px-4 py-4 flex justify-between text-[#222] items-center">
         <div className=''>
           <a href='/'>
             <img src="../images/Logo.svg" alt="House Health" />
