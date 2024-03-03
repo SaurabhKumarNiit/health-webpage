@@ -24,18 +24,10 @@ async function fetchPaginatedDoctors(page, perPage) {
     return data;
 }
 
-async function fetchPaginatedHospitals(page, perPage, zipcode) {
-    if (zipcode) {
-        const response = await fetch(`https://api.coc.houseworksinc.co/api/v1/hospitals?page=${page}&per_page=${perPage}&zip_code=${zipcode}`)
-        const data = await response.json();
-        return data;
-
-    } else {
+async function fetchPaginatedHospitals(page, perPage) {
         const response = await fetch(`https://api.coc.houseworksinc.co/api/v1/hospitals?page=${page}&per_page=${perPage}`)
         const data = await response.json();
         return data;
-
-    }
 
     // return 'data';
 }
@@ -514,7 +506,7 @@ const DoctorDataSearch = () => {
                 setDoctors(data.results);
                 setShouldShowFiltrationDoctors(data.count > 10);
                 setShouldShowDoctorsData(data.results.length == 0)
-                // console.log('ALL Results- ',data.results);
+                console.log('ALL Results- ',data.results);
                 setDataState(true);
                 setIsLoading(false);
                 cancelFilter(); // Close the popup after applying the filter
@@ -1154,7 +1146,7 @@ const DoctorDataSearch = () => {
         let zipCode = filterParams.get("zip_code");
 
         async function loadResults() {
-            const data = await fetchPaginatedHospitals(pageHospital, perPageHospital, zipCode);
+            const data = await fetchPaginatedHospitals(pageHospital, perPageHospital);
             setHospitals(data.results);
             setTotalDataCountHospital(data.count);
             setTotalPagesHospital(Math.ceil(data.count / perPageHospital));
