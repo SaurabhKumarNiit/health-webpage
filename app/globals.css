@@ -183,6 +183,9 @@ p {
       width: 75px;
       font-size: 13px;
     }
+    .Hwinput{
+      margin-left: 0px!important;
+    }
   }
   @media screen and (max-width: 499px) {
     .sec_title {
