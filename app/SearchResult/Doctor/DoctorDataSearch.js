@@ -25,9 +25,9 @@ async function fetchPaginatedDoctors(page, perPage) {
 }
 
 async function fetchPaginatedHospitals(page, perPage) {
-        const response = await fetch(`https://api.coc.houseworksinc.co/api/v1/hospitals?page=${page}&per_page=${perPage}`)
-        const data = await response.json();
-        return data;
+    const response = await fetch(`https://api.coc.houseworksinc.co/api/v1/hospitals?page=${page}&per_page=${perPage}`)
+    const data = await response.json();
+    return data;
 
     // return 'data';
 }
@@ -439,7 +439,7 @@ const DoctorDataSearch = () => {
             let organ = filterParams.get("organ");
             let zipCode = filterParams.get("zip_code");
             let zip_codes = filterParams.get("zip_codes")
-            console.log(zipCode , zip_codes);
+            console.log(zipCode, zip_codes);
             setCurrentType(type);
             setCurrentZipCode(zipCode);
             setCurrentZipCode1(zip_codes);
@@ -447,8 +447,8 @@ const DoctorDataSearch = () => {
             setCurrentSearchFor(searchFor);
             // setType(type);
             // searchForValue(searchFor);
-          
-            if(zipCode==null && zip_codes==null ){
+
+            if (zipCode == null && zip_codes == null) {
                 setShouldRunEffect(true);
             }
             // console.log(type);
@@ -494,9 +494,9 @@ const DoctorDataSearch = () => {
         setCurrentOrgan(filterOptions.organ);
         setCurrentSearchFor(filterOptions.searchFor);
 
-        if(filterOptions.zipCode=="" && filterOptions.zip_codes=="" ){
+        if (filterOptions.zipCode == "" && filterOptions.zip_codes == "") {
             setShouldRunEffect(true);
-        }else{
+        } else {
             setShouldRunEffect(false);
         }
 
@@ -506,7 +506,7 @@ const DoctorDataSearch = () => {
                 setDoctors(data.results);
                 setShouldShowFiltrationDoctors(data.count > 10);
                 setShouldShowDoctorsData(data.results.length == 0)
-                console.log('ALL Results- ',data.results);
+                console.log('ALL Results- ', data.results);
                 setDataState(true);
                 setIsLoading(false);
                 cancelFilter(); // Close the popup after applying the filter
@@ -641,11 +641,15 @@ const DoctorDataSearch = () => {
     const filteredResults = (results || []).filter((item) => {
         if (searchTerm === "") {
             return true;
-        } else if (item.first_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+        } else if (
+            item.first_name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+            item.last_name.toLowerCase().includes(searchTerm.toLowerCase())
+        ) {
             return true;
         }
         return false;
     });
+
 
     const closeSelectedItem = (doctorId) => {
         setSelectedDoctors(prevDoctors => prevDoctors.filter(doctor => doctor.id !== doctorId));
@@ -842,11 +846,20 @@ const DoctorDataSearch = () => {
     const filteredResultsdoctor = (doctorsData || []).filter((doctor) => {
         if (searchTerm === "") {
             return true;
-        } else if (doctor && doctor.first_name && doctor.first_name.toLowerCase().includes(searchTerm.toLowerCase())) {
+        } else if (
+            doctor &&
+            doctor.first_name &&
+            doctor.last_name &&
+            (
+                doctor.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                doctor.last_name.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        ) {
             return true;
         }
         return false;
     });
+
     // popup start
 
     const handleTypeSelection = (selectedType) => {
@@ -1081,36 +1094,36 @@ const DoctorDataSearch = () => {
     // }, [page, perPage]);
 
     useEffect(() => {
-      
+
         if (shouldRunEffect) {
-          async function loadResults() {
+            async function loadResults() {
 
-            let myKeys = window.location.search;
-            // console.log("k & V :", myKeys);
-            let urlParams = new URLSearchParams(myKeys);
-            let param1 = urlParams.get("search");
-            let filterParams = new URLSearchParams(param1);
-            // let type = filterParams.get("type");
-            // let searchFor = filterParams.get("searchFor");
-            // let organ = filterParams.get("organ");
-            let zipCode = filterParams.get("zip_code");
+                let myKeys = window.location.search;
+                // console.log("k & V :", myKeys);
+                let urlParams = new URLSearchParams(myKeys);
+                let param1 = urlParams.get("search");
+                let filterParams = new URLSearchParams(param1);
+                // let type = filterParams.get("type");
+                // let searchFor = filterParams.get("searchFor");
+                // let organ = filterParams.get("organ");
+                let zipCode = filterParams.get("zip_code");
 
-            const data = await fetchPaginatedDoctors(page, perPage);
-            // if (currentZipCode=='') {
+                const data = await fetchPaginatedDoctors(page, perPage);
+                // if (currentZipCode=='') {
                 setDoctors(data.results);
-            // }
-            setTotalDataCount(data.count);
-            setTotalPages(Math.ceil(data.count / perPage));
-            if (data.results && data.results.length > 0) {
-                setSelectedItemID(data.results[0].id);
+                // }
+                setTotalDataCount(data.count);
+                setTotalPages(Math.ceil(data.count / perPage));
+                if (data.results && data.results.length > 0) {
+                    setSelectedItemID(data.results[0].id);
+                }
+                setIsLoading(false);
             }
-            setIsLoading(false);
+            loadResults();
         }
-        loadResults();
-        }
-      
-      }, [shouldRunEffect, page, perPage, currentZipCode]);
-      
+
+    }, [shouldRunEffect, page, perPage, currentZipCode]);
+
 
 
     //   =======================================================Hospital Pagination
@@ -1164,11 +1177,11 @@ const DoctorDataSearch = () => {
 
             {shouldShowDoctorsData ? (
                 <div className='text-center'>
-                <div className='flex p-4 items-center justify-center border-gray-200 mb-6'>
-                    {/* Display "Data not found" message */}
-                    <img className="min-w-[50px]" src="../images/search/DataNotAvailable.jpg" />
-                </div>
-                <a href='https://health-webpage.vercel.app/' className='shadow-md text-md md:text-lg font-semibold bg-[#6e2feb] text-[#fff] rounded-md px-5 py-4 sm:px-6 sm:py-4 hover:scale-105 duration-500 capitalize'>search again</a>
+                    <div className='flex p-4 items-center justify-center border-gray-200 mb-6'>
+                        {/* Display "Data not found" message */}
+                        <img className="min-w-[50px]" src="../images/search/DataNotAvailable.jpg" />
+                    </div>
+                    <a href='https://health-webpage.vercel.app/' className='shadow-md text-md md:text-lg font-semibold bg-[#6e2feb] text-[#fff] rounded-md px-5 py-4 sm:px-6 sm:py-4 hover:scale-105 duration-500 capitalize'>search again</a>
                 </div>
             ) : (
                 <div >
@@ -1383,16 +1396,13 @@ const DoctorDataSearch = () => {
                                                             <RiSearchLine />
                                                         </div>
                                                     )}
-                                                    {searchResults.length === 0 && searchTerm.length > 2 && (
+                                                    {filteredResults.length === 0 && filteredResultsdoctor.length === 0 && searchTerm.length > 2 && (
                                                         <div className="mt-14 text-[#11182799] text-center font-medium text-[14px]">
-                                                            {searchResults.length === 0 && searchTerm.length > 0 && (
-                                                                <>
-                                                                    <img src="../images/search/HwSearch.png" alt="No matching search results found" className="mx-auto mb-4" />
-                                                                    No matching search results found
-                                                                </>
-                                                            )}
+                                                            <img src="../images/search/HwSearch.png" alt="No matching search results found" className="mx-auto mb-4" />
+                                                            No matching search results found
                                                         </div>
                                                     )}
+
                                                 </div>
 
                                                 {filteredResultsdoctor.map((doctor, index) => (
@@ -1735,11 +1745,11 @@ const DoctorDataSearch = () => {
 
             {shouldShowHospitalsData ? (
                 <div className='text-center'>
-                <div className='flex p-4 items-center justify-center border-gray-200 mb-6'>
-                    {/* Display "Data not found" message */}
-                    <img className="min-w-[50px]" src="../images/search/DataNotAvailable.jpg" />
-                </div>
-                <a href='https://health-webpage.vercel.app/' className='shadow-md text-md md:text-lg font-semibold bg-[#6e2feb] text-[#fff] rounded-md px-5 py-4 sm:px-6 sm:py-4 hover:scale-105 duration-500 capitalize'>search again</a>
+                    <div className='flex p-4 items-center justify-center border-gray-200 mb-6'>
+                        {/* Display "Data not found" message */}
+                        <img className="min-w-[50px]" src="../images/search/DataNotAvailable.jpg" />
+                    </div>
+                    <a href='https://health-webpage.vercel.app/' className='shadow-md text-md md:text-lg font-semibold bg-[#6e2feb] text-[#fff] rounded-md px-5 py-4 sm:px-6 sm:py-4 hover:scale-105 duration-500 capitalize'>search again</a>
                 </div>
             ) : (
                 <div >
@@ -1959,17 +1969,13 @@ const DoctorDataSearch = () => {
                                                             <RiSearchLine className='text-2xl' />
                                                         </div>
                                                     )}
-
-                                                    {searchResults.length === 0 && searchTerm.length > 2 && (
+                                                    {filteredResults.length === 0 && filteredResultsHospital.length === 0 && searchTerm.length > 2 && (
                                                         <div className="mt-14 text-[#11182799] text-center font-medium text-[14px]">
-                                                            {searchResults.length === 0 && searchTerm.length > 0 && (
-                                                                <>
-                                                                    <img src="../images/search/HwSearch.png" alt="No matching search results found" className="mx-auto mb-4" />
-                                                                    No matching search results found
-                                                                </>
-                                                            )}
+                                                            <img src="../images/search/HwSearch.png" alt="No matching search results found" className="mx-auto mb-4" />
+                                                            No matching search results found
                                                         </div>
                                                     )}
+
                                                 </div>
 
                                                 {/* working start */}
