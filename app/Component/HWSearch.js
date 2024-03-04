@@ -288,7 +288,7 @@ const HWSearch = () => {
       ) : (
         <div className="py-4 hwOType px-4 sm:px-8">
           <h3 className="font-bold text-[#101426] text-base">Type</h3>
-          <div className="sm:flex grid grid-cols-2 place-content-stretch gap-4 my-2 max-w-[270px] items-center">
+          <div className="sm:flex grid grid-cols-2 place-content-stretch sm:gap-4 gap-2 my-2 max-w-[270px] items-center">
             <div
               className="px-5 py-3.5 cursor-pointer rounded-lg text-center text-sm"
               style={{
@@ -331,7 +331,7 @@ const HWSearch = () => {
             <h3 className="mt-4 mb-2 font-bold text-[#101426] text-base">
               Searching For
             </h3>
-            <ul className="flex flex-wrap gap-4 items-center">
+            <ul className="flex flex-wrap gap-2 sm:gap-4 items-center">
               <li
                 className="flex-none min-w-[80px] px-5 py-3.5 text-sm cursor-pointer rounded-md min-w-[90px] text-center"
                 style={{
