@@ -455,6 +455,7 @@ const DoctorDataSearch = () => {
             if (zipCode == null && zip_codes == null) {
                 setShouldRunEffect(true);
             }
+         
             // console.log(type);
             if (searchFor == 'Doctor') {
                 try {
@@ -463,7 +464,9 @@ const DoctorDataSearch = () => {
                     setDoctors(data.results);
                     setShouldShowFiltrationDoctors(data.count > 10);
                     setShouldShowDoctorsData(data.results.length == 0)
-
+                    if(searchTerm.length > 0 ){
+                        setShouldShowFiltrationDoctors(false);
+                    }
                     console.log(data.count);
                     // setSelectedDoctor(data.results[0]);
                     setDataState(true);
@@ -479,6 +482,9 @@ const DoctorDataSearch = () => {
                     console.log(data.results)
                     setShouldShowFiltrationHospitals(data.count > 10)
                     setShouldShowHospitalssData(data.results.length == 0)
+                    if(searchTerm.length > 0 ){
+                        setShouldShowFiltrationHospitals(false);
+                    }
                     setDataState(false);
                     setIsLoading(false);
                 } catch (error) {
@@ -487,7 +493,7 @@ const DoctorDataSearch = () => {
             }
         };
         fetchData();
-    }, []);
+    }, [searchTerm]);
 
     const applyFilter = async (filterOptions) => {
         // Make the API call with the updated filter options
@@ -653,6 +659,7 @@ const DoctorDataSearch = () => {
         }
         return false;
     });
+
 
     const closeSelectedItem = (doctorId) => {
         setSelectedDoctors(prevDoctors => prevDoctors.filter(doctor => doctor.id !== doctorId));
@@ -862,6 +869,7 @@ const DoctorDataSearch = () => {
         }
         return false;
     });
+
     // popup start
 
     const handleTypeSelection = (selectedType) => {
@@ -1404,6 +1412,7 @@ const DoctorDataSearch = () => {
                                                             No matching search results found
                                                         </div>
                                                     )}
+
                                                 </div>
 
                                                 {filteredResultsdoctor.map((doctor, index) => (
@@ -1970,13 +1979,13 @@ const DoctorDataSearch = () => {
                                                             <RiSearchLine className='text-2xl' />
                                                         </div>
                                                     )}
-
                                                     {filteredResults.length === 0 && filteredResultsHospital.length === 0 && searchTerm.length > 2 && (
                                                         <div className="mt-14 text-[#11182799] text-center font-medium text-[14px]">
                                                             <img src="../images/search/HwSearch.png" alt="No matching search results found" className="mx-auto mb-4" />
                                                             No matching search results found
                                                         </div>
                                                     )}
+
                                                 </div>
 
                                                 {/* working start */}
