@@ -24,18 +24,10 @@ async function fetchPaginatedDoctors(page, perPage) {
     return data;
 }
 
-async function fetchPaginatedHospitals(page, perPage, zipcode) {
-    if (zipcode) {
-        const response = await fetch(`https://api.coc.houseworksinc.co/api/v1/hospitals?page=${page}&per_page=${perPage}&zip_code=${zipcode}`)
-        const data = await response.json();
-        return data;
-
-    } else {
+async function fetchPaginatedHospitals(page, perPage) {
         const response = await fetch(`https://api.coc.houseworksinc.co/api/v1/hospitals?page=${page}&per_page=${perPage}`)
         const data = await response.json();
         return data;
-
-    }
 
     // return 'data';
 }
@@ -348,7 +340,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
         </div>
     );
 };
-const HospitalDataSearch = () => {
+const DoctorDataSearch = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [doctorsData, setDoctors] = useState([]);
     const [hospitals, setHospitals] = useState([]);
@@ -401,6 +393,7 @@ const HospitalDataSearch = () => {
     const [shouldShowFiltrationHospitals, setShouldShowFiltrationHospitals] = useState(true);
     const [shouldShowDoctorsData, setShouldShowDoctorsData] = useState(false);
     const [shouldShowHospitalsData, setShouldShowHospitalssData] = useState(false);
+    const [shouldRunEffect, setShouldRunEffect] = useState(false);
 
 
 
@@ -446,7 +439,7 @@ const HospitalDataSearch = () => {
             let organ = filterParams.get("organ");
             let zipCode = filterParams.get("zip_code");
             let zip_codes = filterParams.get("zip_codes")
-            console.log(zipCode);
+            console.log(zipCode , zip_codes);
             setCurrentType(type);
             setCurrentZipCode(zipCode);
             setCurrentZipCode1(zip_codes);
@@ -454,7 +447,10 @@ const HospitalDataSearch = () => {
             setCurrentSearchFor(searchFor);
             // setType(type);
             // searchForValue(searchFor);
-
+          
+            if(zipCode==null && zip_codes==null ){
+                setShouldRunEffect(true);
+            }
             // console.log(type);
             if (searchFor == 'Doctor') {
                 try {
@@ -498,13 +494,19 @@ const HospitalDataSearch = () => {
         setCurrentOrgan(filterOptions.organ);
         setCurrentSearchFor(filterOptions.searchFor);
 
+        if(filterOptions.zipCode=="" && filterOptions.zip_codes=="" ){
+            setShouldRunEffect(true);
+        }else{
+            setShouldRunEffect(false);
+        }
+
         if (filterOptions.searchFor == 'Doctor') {
             try {
                 const data = await fetchDoctors(filterOptions.type, filterOptions.organ, filterOptions.zipCode, filterOptions.zip_codes);
                 setDoctors(data.results);
                 setShouldShowFiltrationDoctors(data.count > 10);
                 setShouldShowDoctorsData(data.results.length == 0)
-                // console.log('ALL Results- ',data.results);
+                console.log('ALL Results- ',data.results);
                 setDataState(true);
                 setIsLoading(false);
                 cancelFilter(); // Close the popup after applying the filter
@@ -681,6 +683,8 @@ const HospitalDataSearch = () => {
 
     const [isLoading1, setIsLoading1] = useState(true);
     const [dataLoaded, setDataLoaded] = useState(false);
+
+
 
     const handleFilterValueChange = (filteredType) => {
         console.log(filteredType);
@@ -1049,8 +1053,37 @@ const HospitalDataSearch = () => {
     };
 
     // Result Load Code
+    // useEffect(() => {
+    //     async function loadResults() {
+
+    //         let myKeys = window.location.search;
+    //         // console.log("k & V :", myKeys);
+    //         let urlParams = new URLSearchParams(myKeys);
+    //         let param1 = urlParams.get("search");
+    //         let filterParams = new URLSearchParams(param1);
+    //         // let type = filterParams.get("type");
+    //         // let searchFor = filterParams.get("searchFor");
+    //         // let organ = filterParams.get("organ");
+    //         let zipCode = filterParams.get("zip_code");
+
+    //         const data = await fetchPaginatedDoctors(page, perPage);
+    //         if (!currentZipCode) {
+    //             setDoctors(data.results);
+    //         }
+    //         setTotalDataCount(data.count);
+    //         setTotalPages(Math.ceil(data.count / perPage));
+    //         if (data.results && data.results.length > 0) {
+    //             setSelectedItemID(data.results[0].id);
+    //         }
+    //         setIsLoading(false);
+    //     }
+    //     loadResults();
+    // }, [page, perPage]);
+
     useEffect(() => {
-        async function loadResults() {
+      
+        if (shouldRunEffect) {
+          async function loadResults() {
 
             let myKeys = window.location.search;
             // console.log("k & V :", myKeys);
@@ -1063,9 +1096,9 @@ const HospitalDataSearch = () => {
             let zipCode = filterParams.get("zip_code");
 
             const data = await fetchPaginatedDoctors(page, perPage);
-            if (!zipCode) {
+            // if (currentZipCode=='') {
                 setDoctors(data.results);
-            }
+            // }
             setTotalDataCount(data.count);
             setTotalPages(Math.ceil(data.count / perPage));
             if (data.results && data.results.length > 0) {
@@ -1074,7 +1107,10 @@ const HospitalDataSearch = () => {
             setIsLoading(false);
         }
         loadResults();
-    }, [page, perPage]);
+        }
+      
+      }, [shouldRunEffect, page, perPage, currentZipCode]);
+      
 
 
     //   =======================================================Hospital Pagination
@@ -1110,7 +1146,7 @@ const HospitalDataSearch = () => {
         let zipCode = filterParams.get("zip_code");
 
         async function loadResults() {
-            const data = await fetchPaginatedHospitals(pageHospital, perPageHospital, zipCode);
+            const data = await fetchPaginatedHospitals(pageHospital, perPageHospital);
             setHospitals(data.results);
             setTotalDataCountHospital(data.count);
             setTotalPagesHospital(Math.ceil(data.count / perPageHospital));
@@ -2354,4 +2390,4 @@ const HospitalDataSearch = () => {
 
     );
 };
-export default HospitalDataSearch;
+export default DoctorDataSearch;
