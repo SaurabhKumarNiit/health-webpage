@@ -81,8 +81,8 @@ const Footer = () => {
 					</div>
 				</div>
 				<div className="footer_bottom">
-					<div className='footer_left text-left sm:mb-6'>
-						<p className="py-7 text-white inline-block sm:hidden">Address:<br/> 
+					<div className='footer_left text-left mb-4 sm:mb-6'>
+						<p className="py-7 text-white inline-block sm:hidden pb-2"><span className=''>Address:{' '}</span>
 							{hwfootinfo.addressL1}<br/>
 							{hwfootinfo.addressL2}
 						</p>

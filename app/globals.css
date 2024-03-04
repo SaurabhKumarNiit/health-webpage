@@ -186,6 +186,15 @@ p {
     .Hwinput{
       margin-left: 0px!important;
     }
+    .footer_bottom{
+      padding: 0;
+    }
+    .btmfoot_links{
+      padding-top: 20px;
+    }
+    .btmfoot_links li a {
+      font-size: 14px;
+    }
   }
   @media screen and (max-width: 499px) {
     .sec_title {
