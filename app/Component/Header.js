@@ -7,6 +7,11 @@ const Header = () => {
   const [toggle, setToggle] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
 
+  const closePopup = () => {
+    setToggle(false);
+  };
+
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 100) {
@@ -40,7 +45,7 @@ const Header = () => {
                 <TbMenu2 onClick = {()=>setToggle(!toggle)} className="text-3xl text-[#6e2feb] md:hidden block" />              
             }
             <div className='hidden md:flex gap-10'>
-              <Link href='/' className='cursor-pointer hover:text-[#6e2feb] active:text-[#6e2feb] focus:text-[#6e2feb]'>Home</Link>
+              <Link href='/Home' className='cursor-pointer hover:text-[#6e2feb] active:text-[#6e2feb] focus:text-[#6e2feb]'>Home</Link>
               <Link href='/Casereview' className='cursor-pointer hover:text-[#6e2feb] active:text-[#6e2feb] focus:text-[#6e2feb]'>Case Review</Link>
               <Link href='/About' className='cursor-pointer hover:text-[#6e2feb] active:text-[#6e2feb] focus:text-[#6e2feb]'>About Us</Link>
               <Link href='/Contact' className='cursor-pointer hover:text-[#6e2feb] active:text-[#6e2feb] focus:text-[#6e2feb]'>Contact Us</Link>
@@ -50,13 +55,13 @@ const Header = () => {
             md:hidden w-full max-w-[100%] h-[100vh] px-0 py-2 sm:px-0 sm:py-5 z-40 items-center fixed 
             gap-10 bg-gradient-to-r from-[#8E4AE6] to-[#3C1FAF] text-white top-[55px] 
             ${ toggle ? 'top-[70px] right-[0]' : 'right-[100%] top-[70px]'}`}>
-                  <Link href="/" 
+                  <Link href="/Home" onClick={closePopup}
                   className='flex-col cursor-pointer hover:text-[#fff] active:text-[#6e2feb] focus:text-[#6e2feb]'>Home</Link>
-                  <Link href='/Casereview' 
+                  <Link href='/Casereview' onClick={closePopup}
                   className='cursor-pointer hover:text-[#fff] active:text-[#6e2feb] focus:text-[#6e2feb]'>Case Review</Link>
-                  <Link href='/About' 
+                  <Link href='/About' onClick={closePopup}
                   className='cursor-pointer hover:text-[#fff] active:text-[#6e2feb] focus:text-[#6e2feb]'>About Us</Link>
-                  <Link href='/Contact' 
+                  <Link href='/Contact' onClick={closePopup}
                   className='cursor-pointer hover:text-[#fff] active:text-[#6e2feb] focus:text-[#6e2feb]'>Contact Us</Link>
                   
             </div>

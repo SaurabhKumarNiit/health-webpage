@@ -471,9 +471,9 @@ const HWSearch = () => {
                         className="mt-[50px] text-center"
                         style={{ marginLeft: "-50px" }}
                       >
-                        <div className="flex flex-wrap gap-4 items-baseline">
+                        <div className="flex flex-wrap items-baseline sm:gap-4 gap-[10px]">
                           {getOrganOptions().map((option) => (
-                            <button
+                            <button className="filterBox"
                               style={{
                                 border:
                                   (type === "transplant" && selectImage === option) ||
@@ -490,13 +490,6 @@ const HWSearch = () => {
                                     (type === "oncology" && selectImage1 === option)
                                     ? "#F5F0FF"
                                     : "white",
-                                padding: "20px 5px",
-                                borderRadius: "10px",
-                                maxWidth: "100%",
-                                width: "85px",
-                                height: "101px",
-                                fontSize: "14px",
-                                textAlign: "-webkit-center",
                               }}
                               key={option}
                               onClick={() => handleOrganSelection(option)}
