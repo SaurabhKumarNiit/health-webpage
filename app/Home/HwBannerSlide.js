@@ -24,7 +24,7 @@ const TrendingSlider = () => {
   
 
   return (
-    <div className="box py-6">
+    <div className="box py-7">
       <Carousel 
       showIndicators={true}
       showThumbs = {false}
