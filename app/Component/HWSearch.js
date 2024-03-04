@@ -381,7 +381,7 @@ const HWSearch = () => {
                   autoComplete="off"
                 >
                   <input
-                    className="Hwinput relative bg-[#f7f9fc] sm:max-w-[210px] h-[48px] max-w-[212px] rounded-md p-3 shadow-none focus:shadow-none"
+                    className="Hwinput relative bg-[#f7f9fc] sm:max-w-[210px] h-[48px] max-w-[215px] rounded-md p-3 shadow-none focus:shadow-none"
                     type="text"
                     id="outlined-basic"
                     placeholder="Select ZIP Codes"
