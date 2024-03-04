@@ -400,8 +400,8 @@ const DoctorDataSearch = () => {
 
     useEffect(() => {
         if (doctorsData.length > 0) {
-            setDefaultSelectedItemID(doctorsData[0].id);
-            setSelectedItemID(doctorsData[0].id);
+            setDefaultSelectedItemIdDoctor(doctorsData[0].id);
+            setSelectedItemIdDoctor(doctorsData[0].id);
         }
     }, [doctorsData]);
 
@@ -414,6 +414,10 @@ const DoctorDataSearch = () => {
     useEffect(() => {
         setSelectedItemID(defaultSelectedItemID);
     }, [defaultSelectedItemID]);
+
+    useEffect(() => {
+        setSelectedItemIdDoctor(defaultSelectedItemIdDoctor);
+    }, [defaultSelectedItemIdDoctor]);
 
 
     //Add Search Icon in Search Filter
@@ -1405,8 +1409,8 @@ const DoctorDataSearch = () => {
                                                 {filteredResultsdoctor.map((doctor, index) => (
                                                     <div
                                                         onClick={() => {
-                                                            handleItemClick(doctor.id);
-                                                            handleItemClick(doctor.id);
+                                                            handleItemClick1(doctor.id);
+                                                            handleItemClick1(doctor.id);
                                                         }
                                                         }
                                                         key={index}
