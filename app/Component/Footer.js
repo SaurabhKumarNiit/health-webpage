@@ -56,7 +56,7 @@ const Footer = () => {
 							{hwfootinfo.addressL2}
 						</p>
 						<br/>
-						<p className="text-white  hidden sm:inline">Contact: {hwfootinfo.contact}</p>
+						<p className="text-white mt-4 hidden sm:block">Contact: {hwfootinfo.contact}</p>
                     </div>
                     <div className="footer_about">
 						<h3 className="foot_title">About Us</h3>
