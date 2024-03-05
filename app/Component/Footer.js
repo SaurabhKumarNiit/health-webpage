@@ -60,13 +60,13 @@ const Footer = () => {
                     <div className="footer_about">
 						<h3 className="foot_title">About Us</h3>
 						<div className="footer_links flex flex-col gap-3 mt-6">
-							<Link href="/" 
+							<Link href="/Home" 
 							className='cursor-pointer hover:text-[#fff] active:text-[#6e2feb] focus:text-[#6e2feb]'>Home</Link>
-							<Link href='/casereview' 
+							<Link href='/Casereview' 
 							className='cursor-pointer hover:text-[#fff] active:text-[#6e2feb] focus:text-[#6e2feb]'>Case Review</Link>
-							<Link href='/about' 
+							<Link href='/About' 
 							className='cursor-pointer hover:text-[#fff] active:text-[#6e2feb] focus:text-[#6e2feb]'>About Us</Link>
-							<Link href='/contact' 
+							<Link href='/Contact' 
 							className='cursor-pointer hover:text-[#fff] active:text-[#6e2feb] focus:text-[#6e2feb]'>Contact Us</Link>
                   
 						</div>
@@ -74,9 +74,9 @@ const Footer = () => {
 					<div className="footerEcosystem">
 						<h3 className="foot_title">House Ecosystem</h3>
 						<ul className="footer_links">
-							<li><a href="#">House Works</a></li>
-							<li><a href="#">House Medicine</a></li>
-							<li><a href="#">House Transplant and Cancer</a></li>
+							<li><a href="https://houseworksinc.co/" target="_blank">House Works</a></li>
+							<li><a href="https://housemedicine.com/" target="_blank">House Medicine</a></li>
+							<li><a href="https://housetransplantcancer.org/" target="_blank">House Transplant and Cancer</a></li>
 						</ul>
 					</div>
 				</div>
