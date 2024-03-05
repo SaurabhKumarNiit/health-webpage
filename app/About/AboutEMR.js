@@ -26,7 +26,7 @@ const AboutEMR = () => {
                 <div className='p-5 md:p-8 pb-0'>
                     <p className='mb-4'>House Works was conceptualized to focus on solving workflow efficiency issues in managing cancer and transplant patient care, both known for their complex processes involved.</p>
                     <p>The company uses technology that allows care teams to provide the highest quality of personalized patient care, reduce the time-to-treatment phases and increase the accessibility to quaternary care needed for complex procedures like transplants and cancer care.</p>
-                    <a className='font-semibold duration-500 hover:scale-105 shadow shadow-indigo-500/50 rounded-md px-5 py-3 mt-5 inline-block bg-[#f7f9fc] cursor-pointer center'>Learn more</a>
+                    <a className='hidden font-semibold duration-500 hover:scale-105 shadow shadow-indigo-500/50 rounded-md px-5 py-3 mt-5 inline-block bg-[#f7f9fc] cursor-pointer center'>Learn more</a>
 
 
 
@@ -68,7 +68,7 @@ const AboutEMR = () => {
                 ))}
                 </div>
                 <div className='block w-full text-center'>
-                    <a className='font-semibold duration-500 hover:scale-105 shadow shadow-indigo-500/50 rounded-md px-5 py-3 mt-5 inline-block bg-[#f7f9fc] cursor-pointer center'>Learn more</a>
+                    <a className='hidden font-semibold duration-500 hover:scale-105 shadow shadow-indigo-500/50 rounded-md px-5 py-3 mt-5 inline-block bg-[#f7f9fc] cursor-pointer center'>Learn more</a>
                 </div>
                 
             </div>

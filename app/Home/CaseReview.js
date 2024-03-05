@@ -47,7 +47,7 @@ const CaseReview = () => {
 				      ))}
 					</div>
                     <div className="w-full">
-                        <a href="#" className="shadow-md text-md md:text-lg font-semibold bg-[#6e2feb] text-[#fff] rounded-md px-5 py-4 sm:px-6 sm:py-4 hover:scale-105 duration-500">Know More</a>
+                        <a href="https://health-webpage.vercel.app/Casereview" className="shadow-md text-md md:text-lg font-semibold bg-[#6e2feb] text-[#fff] rounded-md px-5 py-4 sm:px-6 sm:py-4 hover:scale-105 duration-500">Know More</a>
                     </div>
 				</div>
 			</section>
