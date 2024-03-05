@@ -455,6 +455,7 @@ const DoctorDataSearch = () => {
             if (zipCode == null && zip_codes == null) {
                 setShouldRunEffect(true);
             }
+
             // console.log(type);
             if (searchFor == 'Doctor') {
                 try {
@@ -463,7 +464,6 @@ const DoctorDataSearch = () => {
                     setDoctors(data.results);
                     setShouldShowFiltrationDoctors(data.count > 10);
                     setShouldShowDoctorsData(data.results.length == 0)
-
                     console.log(data.count);
                     // setSelectedDoctor(data.results[0]);
                     setDataState(true);
@@ -488,6 +488,17 @@ const DoctorDataSearch = () => {
         };
         fetchData();
     }, []);
+
+    useEffect(() => {
+        if (searchTerm.length > 0) {
+            setShouldShowFiltrationDoctors(false);
+            setShouldShowFiltrationHospitals(false);
+
+        }else{
+            setShouldShowFiltrationDoctors(true);
+            setShouldShowFiltrationHospitals(true);
+        }
+    }, [searchTerm]);
 
     const applyFilter = async (filterOptions) => {
         // Make the API call with the updated filter options
