@@ -444,33 +444,33 @@ const DoctorDataSearch = () => {
     });
 
     useEffect(() => {
-            let myKeys = window.location.search;
+        let myKeys = window.location.search;
 
-            let urlParams = new URLSearchParams(myKeys);
+        let urlParams = new URLSearchParams(myKeys);
 
-            let param1 = urlParams.get("search");
+        let param1 = urlParams.get("search");
 
-            let filterParams = new URLSearchParams(param1);
+        let filterParams = new URLSearchParams(param1);
 
-            let searchResult = filterParams.get("searchResult");
+        let searchResult = filterParams.get("searchResult");
 
 
-            if(filteredResultsdoctor.length<10){
-                setShouldShowFiltrationDoctors(false);
-            }
+        if (filteredResultsdoctor.length < 10) {
+            setShouldShowFiltrationDoctors(false);
+        }
 
-            console.log(filteredResultsdoctor.length);
+        console.log(filteredResultsdoctor.length);
 
-            if(searchResult==null){
-                // setSearchTerm('');
-                console.log('set to null')
-            }else{
-                setSearchTerm(searchResult);
-                console.log('set to result')
-                setShouldShowFiltrationDoctors(false);
-            }
+        if (searchResult == null) {
+            // setSearchTerm('');
+            console.log('set to null')
+        } else {
+            setSearchTerm(searchResult);
+            console.log('set to result')
+            setShouldShowFiltrationDoctors(false);
+        }
 
-  
+
     }, []);
 
     useEffect(() => {
@@ -512,14 +512,14 @@ const DoctorDataSearch = () => {
                     setDoctors(data.results);
                     setShouldShowFiltrationDoctors(data.count > 10);
 
-                    if(searchResult!=null){
-                        if(filteredResultsdoctor.length<10){
+                    if (searchResult != null) {
+                        if (filteredResultsdoctor.length < 10) {
                             setShouldShowFiltrationDoctors(false);
                         }
-                    }else{
+                    } else {
                         console.log("search result is null")
                     }
-                
+
                     setShouldShowDoctorsData(data.results.length == 0)
                     console.log(data.count);
                     // setSelectedDoctor(data.results[0]);
@@ -551,7 +551,7 @@ const DoctorDataSearch = () => {
             setShouldShowFiltrationDoctors(false);
             setShouldShowFiltrationHospitals(false);
 
-        }else{
+        } else {
             setShouldShowFiltrationDoctors(true);
             setShouldShowFiltrationHospitals(true);
         }
@@ -1132,14 +1132,14 @@ const DoctorDataSearch = () => {
     const handleButtonClick = (type) => {
         // Set shouldRunEffect to true when the user clicks Prev or Next button
         setShouldRunEffect(true);
-    
+
         // Update the page based on the button type (Prev or Next)
         if (type === 'prev' && page > 1) {
-          setPage(page - 1);
+            setPage(page - 1);
         } else if (type === 'next' && page < totalPages) {
-          setPage(page + 1);
+            setPage(page + 1);
         }
-      };
+    };
 
     // Result Load Code
     // useEffect(() => {
