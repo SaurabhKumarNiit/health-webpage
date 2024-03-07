@@ -16,6 +16,9 @@ const HWSearch = () => {
   const [selectedOption, setSelectedOption] = useState("transplant");
   const [selectedMutiple, setselectedMutiple] = useState("Doctor");
   const [selectedZip, setSelectedZip] = useState();
+  const [searchText, setSearchText] = useState('');
+
+
 
   const [searchedZipCodes, setSearchedZipCodes] = useState([]);
   const [selectedZipCodes, setSelectedZipCodes] = useState([]);
@@ -217,6 +220,7 @@ const HWSearch = () => {
 
 
   const handleInputChange = (e) => {
+    setSearchText(e.target.value);
     const input = e.target.value.replace(/\D/g, '');
     setSelectedZip(input);
 
@@ -544,7 +548,22 @@ const HWSearch = () => {
         </Link>
       </div>
 
-      <div className=""></div>
+      {/* <div className="px-4 sm:px-8 mb-2">
+        <Link
+          href={{
+            pathname:'/SearchResult',
+            query: {
+              search: `searchResult=${searchText}&searchFor=${'Doctor'}`,
+            },
+          }}
+        >
+          <button className="inline-block text-center px-3 py-3 rounded-md bg-[#6e2feb] shadow-2xl hover:bg-[#3c1faf] ease-in duration-300 font-bold text-[#fff] cursor-pointer w-[100%]">
+            Search For Filteration
+          </button>
+        </Link>
+      </div> */}
+
+      {/* <div className=""></div> */}
     </div>
   );
 };
