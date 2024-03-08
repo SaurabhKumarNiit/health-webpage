@@ -389,7 +389,7 @@ const DoctorDataSearch = () => {
     const [zip_codes, setzip_codes] = useState('');
     const [selectedDoctors, setSelectedDoctors] = useState([]);
     const [selectedHospitals, setSelectedHospitals] = useState([]);
-    const [shouldShowFiltrationDoctors, setShouldShowFiltrationDoctors] = useState(true);
+    const [shouldShowFiltrationDoctors, setShouldShowFiltrationDoctors] = useState(false);
     const [shouldShowFiltrationHospitals, setShouldShowFiltrationHospitals] = useState(true);
     const [shouldShowDoctorsData, setShouldShowDoctorsData] = useState(false);
     const [shouldShowHospitalsData, setShouldShowHospitalssData] = useState(false);
@@ -510,9 +510,11 @@ const DoctorDataSearch = () => {
                     const data = await fetchDoctors(type, organ, zipCode, zip_codes);
                     // setDoctors(data.results); 
                     setDoctors(data.results);
+
                     setShouldShowFiltrationDoctors(data.count > 10);
 
                     if (searchResult != null) {
+                        console.log(searchResult);
                         if (filteredResultsdoctor.length < 10) {
                             setShouldShowFiltrationDoctors(false);
                         }
@@ -547,14 +549,39 @@ const DoctorDataSearch = () => {
     }, []);
 
     useEffect(() => {
-        if (searchTerm.length > 0) {
-            setShouldShowFiltrationDoctors(false);
-            setShouldShowFiltrationHospitals(false);
+//   setTimeout(()=>{
+//     if (filteredResultsdoctor.length < 10) {
+//         if (searchTerm.length > 0) {
+//             setShouldShowFiltrationDoctors(false);
+//             setShouldShowFiltrationHospitals(false);
+    
+//         } else {
+//             setShouldShowFiltrationDoctors(true);
+//             setShouldShowFiltrationHospitals(true);
+//         }    }
+//   },1000)
 
-        } else {
-            setShouldShowFiltrationDoctors(true);
-            setShouldShowFiltrationHospitals(true);
-        }
+let myKeys = window.location.search;
+// console.log("k & V :", myKeys);
+
+let urlParams = new URLSearchParams(myKeys);
+
+let param1 = urlParams.get("search");
+
+let filterParams = new URLSearchParams(param1);
+
+let searchResult = filterParams.get("searchResult");
+
+if (searchTerm!='') {
+    console.log(searchTerm);
+    setShouldShowFiltrationDoctors(false);
+
+    // if (filteredResultsdoctor.length < 10) {
+    //     setShouldShowFiltrationDoctors(false);
+    // }
+} else {
+    console.log("search result is null")
+}
     }, [searchTerm]);
 
     const applyFilter = async (filterOptions) => {
@@ -884,7 +911,7 @@ const DoctorDataSearch = () => {
         if (endPage - startPage < numPageLinksToShow) {
             startPage = Math.max(1, endPage - numPageLinksToShow + 1);
         }
-        for (let i = startPage; i <= 5; i++) {
+        for (let i = startPage; i <= 6; i++) {
             pageNumbers.push(i);
         }
         return pageNumbers;

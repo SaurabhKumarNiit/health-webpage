@@ -389,7 +389,7 @@ const DoctorDataSearch = () => {
     const [zip_codes, setzip_codes] = useState('');
     const [selectedDoctors, setSelectedDoctors] = useState([]);
     const [selectedHospitals, setSelectedHospitals] = useState([]);
-    const [shouldShowFiltrationDoctors, setShouldShowFiltrationDoctors] = useState(true);
+    const [shouldShowFiltrationDoctors, setShouldShowFiltrationDoctors] = useState(false);
     const [shouldShowFiltrationHospitals, setShouldShowFiltrationHospitals] = useState(true);
     const [shouldShowDoctorsData, setShouldShowDoctorsData] = useState(false);
     const [shouldShowHospitalsData, setShouldShowHospitalssData] = useState(false);
@@ -426,6 +426,53 @@ const DoctorDataSearch = () => {
 
     };
 
+    const filteredResultsdoctor = (doctorsData || []).filter((doctor) => {
+        if (searchTerm === "") {
+            return true;
+        } else if (
+            doctor &&
+            doctor.first_name &&
+            doctor.last_name &&
+            (
+                doctor.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                doctor.last_name.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        ) {
+            return true;
+        }
+        return false;
+    });
+
+    useEffect(() => {
+        let myKeys = window.location.search;
+
+        let urlParams = new URLSearchParams(myKeys);
+
+        let param1 = urlParams.get("search");
+
+        let filterParams = new URLSearchParams(param1);
+
+        let searchResult = filterParams.get("searchResult");
+
+
+        if (filteredResultsdoctor.length < 10) {
+            setShouldShowFiltrationDoctors(false);
+        }
+
+        console.log(filteredResultsdoctor.length);
+
+        if (searchResult == null) {
+            // setSearchTerm('');
+            console.log('set to null')
+        } else {
+            setSearchTerm(searchResult);
+            console.log('set to result')
+            setShouldShowFiltrationDoctors(false);
+        }
+
+
+    }, []);
+
     useEffect(() => {
         const fetchData = async () => {
             // console.log(window.location);
@@ -439,6 +486,7 @@ const DoctorDataSearch = () => {
             let filterParams = new URLSearchParams(param1);
 
             let type = filterParams.get("type");
+            let searchResult = filterParams.get("searchResult");
             let searchFor = filterParams.get("searchFor");
             let organ = filterParams.get("organ");
             let zipCode = filterParams.get("zip_code");
@@ -453,7 +501,7 @@ const DoctorDataSearch = () => {
             // searchForValue(searchFor);
 
             if (zipCode == null && zip_codes == null) {
-                setShouldRunEffect(true);
+                // setShouldRunEffect(true);
             }
 
             // console.log(type);
@@ -462,7 +510,18 @@ const DoctorDataSearch = () => {
                     const data = await fetchDoctors(type, organ, zipCode, zip_codes);
                     // setDoctors(data.results); 
                     setDoctors(data.results);
+
                     setShouldShowFiltrationDoctors(data.count > 10);
+
+                    if (searchResult != null) {
+                        console.log(searchResult);
+                        if (filteredResultsdoctor.length < 10) {
+                            setShouldShowFiltrationDoctors(false);
+                        }
+                    } else {
+                        console.log("search result is null")
+                    }
+
                     setShouldShowDoctorsData(data.results.length == 0)
                     console.log(data.count);
                     // setSelectedDoctor(data.results[0]);
@@ -490,14 +549,39 @@ const DoctorDataSearch = () => {
     }, []);
 
     useEffect(() => {
-        if (searchTerm.length > 0) {
-            setShouldShowFiltrationDoctors(false);
-            setShouldShowFiltrationHospitals(false);
+//   setTimeout(()=>{
+//     if (filteredResultsdoctor.length < 10) {
+//         if (searchTerm.length > 0) {
+//             setShouldShowFiltrationDoctors(false);
+//             setShouldShowFiltrationHospitals(false);
+    
+//         } else {
+//             setShouldShowFiltrationDoctors(true);
+//             setShouldShowFiltrationHospitals(true);
+//         }    }
+//   },1000)
 
-        }else{
-            setShouldShowFiltrationDoctors(true);
-            setShouldShowFiltrationHospitals(true);
-        }
+let myKeys = window.location.search;
+// console.log("k & V :", myKeys);
+
+let urlParams = new URLSearchParams(myKeys);
+
+let param1 = urlParams.get("search");
+
+let filterParams = new URLSearchParams(param1);
+
+let searchResult = filterParams.get("searchResult");
+
+if (searchTerm!='') {
+    console.log(searchTerm);
+    setShouldShowFiltrationDoctors(false);
+
+    // if (filteredResultsdoctor.length < 10) {
+    //     setShouldShowFiltrationDoctors(false);
+    // }
+} else {
+    console.log("search result is null")
+}
     }, [searchTerm]);
 
     const applyFilter = async (filterOptions) => {
@@ -509,11 +593,11 @@ const DoctorDataSearch = () => {
         setCurrentOrgan(filterOptions.organ);
         setCurrentSearchFor(filterOptions.searchFor);
 
-        if (filterOptions.zipCode == "" && filterOptions.zip_codes == "") {
-            setShouldRunEffect(true);
-        } else {
-            setShouldRunEffect(false);
-        }
+        // if (filterOptions.zipCode == "" && filterOptions.zip_codes == "") {
+        //     setShouldRunEffect(true);
+        // } else {
+        //     setShouldRunEffect(false);
+        // }
 
         if (filterOptions.searchFor == 'Doctor') {
             try {
@@ -783,6 +867,8 @@ const DoctorDataSearch = () => {
 
     // Filter Pagination 
     const loadMore = () => {
+        setShouldRunEffect(true);
+
         if (page < totalPages) {
             setPage(page + 1);
             setSelectedPage(selectedPage + 1)
@@ -801,6 +887,8 @@ const DoctorDataSearch = () => {
         setModalIsOpen(true);
     };
     const loadPrevious = () => {
+        setShouldRunEffect(true);
+
         if (page > 1) {
             setPage(page - 1);
             setSelectedPage(selectedPage - 1)
@@ -823,7 +911,7 @@ const DoctorDataSearch = () => {
         if (endPage - startPage < numPageLinksToShow) {
             startPage = Math.max(1, endPage - numPageLinksToShow + 1);
         }
-        for (let i = startPage; i <= endPage; i++) {
+        for (let i = startPage; i <= 6; i++) {
             pageNumbers.push(i);
         }
         return pageNumbers;
@@ -858,22 +946,7 @@ const DoctorDataSearch = () => {
         return false;
     });
 
-    const filteredResultsdoctor = (doctorsData || []).filter((doctor) => {
-        if (searchTerm === "") {
-            return true;
-        } else if (
-            doctor &&
-            doctor.first_name &&
-            doctor.last_name &&
-            (
-                doctor.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                doctor.last_name.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-        ) {
-            return true;
-        }
-        return false;
-    });
+
 
     // popup start
 
@@ -1054,6 +1127,7 @@ const DoctorDataSearch = () => {
     };
 
     useEffect(() => {
+        //  generatePageNumbers();
         // Check if data has loaded
         if (!isLoading1 || doctorsData.length > 0) {
             setDataLoaded(true);
@@ -1064,6 +1138,8 @@ const DoctorDataSearch = () => {
 
 
     const handlePageClick = (pageNumber) => {
+        setShouldRunEffect(true);
+
         if (pageNumber === 'prev' && page > 1) {
             if (page > 1) {
                 setPage(page - 1);
@@ -1077,6 +1153,18 @@ const DoctorDataSearch = () => {
         } else if (typeof pageNumber === 'number' && pageNumber !== selectedPage) {
             setPage(pageNumber);
             setSelectedPage(pageNumber);
+        }
+    };
+
+    const handleButtonClick = (type) => {
+        // Set shouldRunEffect to true when the user clicks Prev or Next button
+        setShouldRunEffect(true);
+
+        // Update the page based on the button type (Prev or Next)
+        if (type === 'prev' && page > 1) {
+            setPage(page - 1);
+        } else if (type === 'next' && page < totalPages) {
+            setPage(page + 1);
         }
     };
 
@@ -1108,25 +1196,23 @@ const DoctorDataSearch = () => {
     //     loadResults();
     // }, [page, perPage]);
 
+    // let myKeys = window.location.search;
+    // console.log("k & V :", myKeys);
+    // let urlParams = new URLSearchParams(myKeys);
+    // let param1 = urlParams.get("search");
+    // let filterParams = new URLSearchParams(param1);
+    // // let type = filterParams.get("type");
+    // // let searchFor = filterParams.get("searchFor");
+    // // let organ = filterParams.get("organ");
+    // let zipCode = filterParams.get("zip_code");
+
     useEffect(() => {
 
         if (shouldRunEffect) {
             async function loadResults() {
 
-                let myKeys = window.location.search;
-                // console.log("k & V :", myKeys);
-                let urlParams = new URLSearchParams(myKeys);
-                let param1 = urlParams.get("search");
-                let filterParams = new URLSearchParams(param1);
-                // let type = filterParams.get("type");
-                // let searchFor = filterParams.get("searchFor");
-                // let organ = filterParams.get("organ");
-                let zipCode = filterParams.get("zip_code");
-
                 const data = await fetchPaginatedDoctors(page, perPage);
-                // if (currentZipCode=='') {
                 setDoctors(data.results);
-                // }
                 setTotalDataCount(data.count);
                 setTotalPages(Math.ceil(data.count / perPage));
                 if (data.results && data.results.length > 0) {
@@ -1135,6 +1221,9 @@ const DoctorDataSearch = () => {
                 setIsLoading(false);
             }
             loadResults();
+
+            setShouldRunEffect(false);
+
         }
 
     }, [shouldRunEffect, page, perPage, currentZipCode]);
@@ -1527,7 +1616,8 @@ const DoctorDataSearch = () => {
                                                         </div>
                                                     )}
 
-                                                </div>{/* ###Filter Pagination End*/}
+                                                </div>
+                                                {/* ###Filter Pagination End*/}
 
                                                 <div className='filterCompareBtns sticky bottom-0 left-4 right-10 z-1 bg-[#fff] p-4 max-w-[480px] -shadow-sm'>
                                                     <div className='flex items-center justify-end gap-[10px]'>
