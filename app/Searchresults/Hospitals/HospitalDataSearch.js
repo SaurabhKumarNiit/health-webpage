@@ -411,6 +411,15 @@ const DoctorDataSearch = () => {
         setIsShareOpen(!isShareOpen);
     };
 
+    
+    useEffect(() => {
+        if (hospitals.length > 0) {
+            // setDefaultSelectedItemIdDoctor(doctorsData[0].id);
+            setSelectedItemIDHospital(hospitals[0].id);
+        }
+    }, [hospitals]);
+
+
 
     useEffect(() => {
         setSelectedItemID(defaultSelectedItemID);
@@ -538,6 +547,9 @@ const DoctorDataSearch = () => {
                     setHospitals(data.results);
                     console.log(data.results)
                     setShouldShowFiltrationHospitals(data.count > 10)
+                    console.log('hhhhhhhhhhhhhssssssssssssss------- ' ,data.results[0].id);
+
+                    // setSelectedItemID(data.results[0].id);
                     setShouldShowHospitalssData(data.results.length == 0)
                     setDataState(false);
                     setIsLoading(false);
@@ -851,13 +863,12 @@ if (searchTerm!='') {
             setOrgan(organ)
             searchForValue(searchFor);
             setZipCode(zipCode);
-            // console.log('added zid code -;', zipCode , type);
 
             console.log(type);
             try {
                 const data = await fetchHospitals(type, zipCode);
                 // setDoctors(data.results); 
-                setHospitals(data.results);
+                // setHospitals(data.results);
                 setIsLoading(false);
 
                 setUpdatedValue(type);
@@ -882,6 +893,8 @@ if (searchTerm!='') {
     };
 
     const loadMoreHospital = () => {
+        setShouldRunEffect(true);
+
         if (pageHospital < totalPagesHospital) {
             setPageHospital(pageHospital + 1);
             setSelectedPageHospital(selectedPageHospital + 1)
@@ -902,6 +915,8 @@ if (searchTerm!='') {
     };
 
     const loadPreviousHospital = () => {
+        setShouldRunEffect(true);
+
         if (pageHospital > 1) {
             setPageHospital(pageHospital - 1);
             setSelectedPageHospital(selectedPageHospital - 1)
@@ -1233,13 +1248,15 @@ if (searchTerm!='') {
 
             setShouldRunEffect(false);    
 
-    }, [shouldRunEffect, page, perPage, currentZipCode]);
+    }, [shouldRunEffect, page, perPage]);
 
 
 
     //   =======================================================Hospital Pagination
 
     const handlePageClickHospital = (pageNumber) => {
+        setShouldRunEffect(true);
+
         if (pageNumber === 'prev' && pageHospital > 1) {
             if (page > 1) {
                 setPageHospital(pageHospital - 1);
@@ -1271,7 +1288,9 @@ if (searchTerm!='') {
 
         async function loadResults() {
             const data = await fetchPaginatedHospitals(pageHospital, perPageHospital);
+            if (shouldRunEffect) {
             setHospitals(data.results);
+        }
             setTotalDataCountHospital(data.count);
             setTotalPagesHospital(Math.ceil(data.count / perPageHospital));
             if (data.results && data.results.length > 0) {
@@ -1280,7 +1299,7 @@ if (searchTerm!='') {
             setIsLoading(false);
         }
         loadResults();
-    }, [pageHospital, perPageHospital]);
+    }, [shouldRunEffect,pageHospital, perPageHospital]);
 
     return (
         <div>
@@ -2110,7 +2129,7 @@ if (searchTerm!='') {
                                                   ${
                                                             // console.log(doctor.id[0]),
                                                             defaultSelectedItemID === hospital.id ? 'border-[#6e2feb]' : 'border-transparent'
-                                                            } ${selectedItemID === hospital.id ? 'bg-[#fff]' : ''}`
+                                                            } ${selectedItemIDHospital === hospital.id ? 'bg-[#fff]' : ''}`
                                                         }>
                                                         <div className="flex justify-between items-center w-full mb-3 relative">
                                                             <div className='absolute -left-6 top-0'>
@@ -2260,10 +2279,10 @@ if (searchTerm!='') {
                                             {/* ###Filter Details Start*/}
                                             {/*  */}
                                             <div className='p-10 basis-2/3 sm:sticky top-[30px] ease-in duration-300'>
-                                                {selectedItemID && (
+                                                {selectedItemIDHospital && (
                                                     <div className=''>
                                                         {hospitals.map((hospital, index) => (
-                                                            hospital.id === selectedItemID && (
+                                                            hospital.id === selectedItemIDHospital && (
                                                                 <div key={index} className='detailsInner w-full ease-in-out duration-1500'>
                                                                     <div className="py-4 detailsTitle text-[#101426]">
                                                                         <h2 className="text-3xl font-semibold m-b-3 text-[#101426]">
