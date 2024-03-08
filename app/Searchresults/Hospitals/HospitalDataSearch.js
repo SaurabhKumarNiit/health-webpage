@@ -523,7 +523,6 @@ const DoctorDataSearch = () => {
                         console.log("search result is null")
                     }
 
-                    setShowSearchBar(true);
                     setShouldShowDoctorsData(data.results.length == 0)
                     console.log(data.count);
                     // setSelectedDoctor(data.results[0]);
@@ -546,6 +545,10 @@ const DoctorDataSearch = () => {
                     console.error('Error fetching data:', error);
                 }
             }
+
+    setShowSearchBar(true);
+
+
         };
         fetchData();
     }, []);
@@ -914,7 +917,7 @@ if (searchTerm!='') {
         if (endPage - startPage < numPageLinksToShow) {
             startPage = Math.max(1, endPage - numPageLinksToShow + 1);
         }
-        for (let i = startPage; i <= 6; i++) {
+        for (let i = startPage; i <= endPage; i++) {
             pageNumbers.push(i);
         }
         return pageNumbers;
@@ -1211,12 +1214,14 @@ if (searchTerm!='') {
 
     useEffect(() => {
 
-        if (shouldRunEffect) {
-            console.log('pppppppppaaaaaaaaagggggggggeeeeeeeeeeeee       llllllloooooooooooddddddddd')
+     
             async function loadResults() {
 
                 const data = await fetchPaginatedDoctors(page, perPage);
+                
+                if (shouldRunEffect) {
                 setDoctors(data.results);
+                }
                 setTotalDataCount(data.count);
                 setTotalPages(Math.ceil(data.count / perPage));
                 if (data.results && data.results.length > 0) {
@@ -1226,9 +1231,7 @@ if (searchTerm!='') {
             }
             loadResults();
 
-            setShouldRunEffect(false);
-
-        }
+            setShouldRunEffect(false);    
 
     }, [shouldRunEffect, page, perPage, currentZipCode]);
 
@@ -1478,11 +1481,14 @@ if (searchTerm!='') {
                                                     </button>
                                                 )}
                                             </div>
-                                            <div className='hwFilter text-[#6e2feb]'>
-                                                <button className='flex gap-2 items-center' onClick={togglePopup}>
-                                                    <BiFilterAlt className='flex items-center text-[#6e2feb]' /> Filter
-                                                </button>
-                                            </div>
+                                            {showSearchBar && (
+                                                   <div className='hwFilter text-[#6e2feb]'>
+                                                   <button className='flex gap-2 items-center' onClick={togglePopup}>
+                                                       <BiFilterAlt className='flex items-center text-[#6e2feb]' /> Filter
+                                                   </button>
+                                               </div>  
+                                            )}
+                                       
                                         </div>
                                     </div>
                                 </div>
