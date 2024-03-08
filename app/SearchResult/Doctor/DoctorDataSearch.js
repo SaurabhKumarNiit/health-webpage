@@ -128,7 +128,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
 
         setTimeout(() => {
             onCancel();
-        }, 100)
+        }, 2000)
     };
 
     const handleOptionClick = (option) => {
@@ -390,7 +390,8 @@ const DoctorDataSearch = () => {
     const [selectedDoctors, setSelectedDoctors] = useState([]);
     const [selectedHospitals, setSelectedHospitals] = useState([]);
     const [shouldShowFiltrationDoctors, setShouldShowFiltrationDoctors] = useState(false);
-    const [shouldShowFiltrationHospitals, setShouldShowFiltrationHospitals] = useState(true);
+    const [showSearchBar, setShowSearchBar] = useState(false);
+    const [shouldShowFiltrationHospitals, setShouldShowFiltrationHospitals] = useState(false);
     const [shouldShowDoctorsData, setShouldShowDoctorsData] = useState(false);
     const [shouldShowHospitalsData, setShouldShowHospitalssData] = useState(false);
     const [shouldRunEffect, setShouldRunEffect] = useState(false);
@@ -544,6 +545,10 @@ const DoctorDataSearch = () => {
                     console.error('Error fetching data:', error);
                 }
             }
+
+    setShowSearchBar(true);
+
+
         };
         fetchData();
     }, []);
@@ -575,6 +580,7 @@ let searchResult = filterParams.get("searchResult");
 if (searchTerm!='') {
     console.log(searchTerm);
     setShouldShowFiltrationDoctors(false);
+    setShouldShowFiltrationHospitals(false);
 
     // if (filteredResultsdoctor.length < 10) {
     //     setShouldShowFiltrationDoctors(false);
@@ -1475,40 +1481,47 @@ if (searchTerm!='') {
                                                     </button>
                                                 )}
                                             </div>
-                                            <div className='hwFilter text-[#6e2feb]'>
-                                                <button className='flex gap-2 items-center' onClick={togglePopup}>
-                                                    <BiFilterAlt className='flex items-center text-[#6e2feb]' /> Filter
-                                                </button>
-                                            </div>
+                                            {showSearchBar && (
+                                                   <div className='hwFilter text-[#6e2feb]'>
+                                                   <button className='flex gap-2 items-center' onClick={togglePopup}>
+                                                       <BiFilterAlt className='flex items-center text-[#6e2feb]' /> Filter
+                                                   </button>
+                                               </div>  
+                                            )}
+                                       
                                         </div>
                                     </div>
                                 </div>
+                                {/* Search Result Start here */}
+
+
                                 <div className="max-w-[1355px] mx-auto searhResults ease-in duration-300">
-                                    {/* Search Result Start here */}
                                     <div className='searchResultsDiv bg-[#fff]'>
                                         <div className='flex flex-col items-start sm:flex-row justify-between' >
                                             <div className='basis-1/3 relative px-4 sm:px-0 border-r border-[#e4e9f2]'>
-                                                <div className='searchBox p-4 relative'>
-                                                    <input
-                                                        className="placeholder:text-slate-400 block bg-[#F7F9FC] w-full border border-[#EDF1F7]-300 rounded px-2.5 py-3 shadow-sm focus:outline-none focus:border-[#6E2FEB]-500 focus:ring-[#6E2FEB]-500 focus:ring-1 sm:text-sm"
-                                                        placeholder="Search"
-                                                        type="text"
-                                                        value={searchTerm}
-                                                        onChange={handleSearchInputChange}
-                                                    />
-                                                    {searchTerm.length === 0 && (
-                                                        <div className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                                            <RiSearchLine />
-                                                        </div>
-                                                    )}
-                                                    {filteredResults.length === 0 && filteredResultsdoctor.length === 0 && searchTerm.length > 2 && (
-                                                        <div className="mt-14 text-[#11182799] text-center font-medium text-[14px]">
-                                                            <img src="../images/search/HwSearch.png" alt="No matching search results found" className="mx-auto mb-4" />
-                                                            No matching search results found
-                                                        </div>
-                                                    )}
+                                            {showSearchBar && (
+                                                 <div className='searchBox p-4 relative'>
+                                                 <input
+                                                     className="placeholder:text-slate-400 block bg-[#F7F9FC] w-full border border-[#EDF1F7]-300 rounded px-2.5 py-3 shadow-sm focus:outline-none focus:border-[#6E2FEB]-500 focus:ring-[#6E2FEB]-500 focus:ring-1 sm:text-sm"
+                                                     placeholder="Search"
+                                                     type="text"
+                                                     value={searchTerm}
+                                                     onChange={handleSearchInputChange}
+                                                 />
+                                                 {searchTerm.length === 0 && (
+                                                     <div className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                                         <RiSearchLine />
+                                                     </div>
+                                                 )}
+                                                 {filteredResults.length === 0 && filteredResultsdoctor.length === 0 && searchTerm.length > 2 && (
+                                                     <div className="mt-14 text-[#11182799] text-center font-medium text-[14px]">
+                                                         <img src="../images/search/HwSearch.png" alt="No matching search results found" className="mx-auto mb-4" />
+                                                         No matching search results found
+                                                     </div>
+                                                 )}
 
-                                                </div>
+                                             </div>    
+                                                    )}
 
                                                 {filteredResultsdoctor.map((doctor, index) => (
                                                     <div
