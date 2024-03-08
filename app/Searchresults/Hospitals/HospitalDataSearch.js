@@ -414,8 +414,8 @@ const DoctorDataSearch = () => {
     
     useEffect(() => {
         if (hospitals.length > 0) {
-            // setDefaultSelectedItemIdDoctor(doctorsData[0].id);
-            setSelectedItemIDHospital(hospitals[0].id);
+            setDefaultSelectedItemID(hospitals[0].id);
+            setSelectedItemID(hospitals[0].id);
         }
     }, [hospitals]);
 
@@ -811,12 +811,12 @@ if (searchTerm!='') {
         console.log(filteredType);
     };
 
-    useEffect(() => {
-        if (hospitals.length > 0) {
-            setDefaultSelectedItemID(hospitals[0].id);
-            setSelectedItemID(hospitals[0].id);
-        }
-    }, [hospitals]);
+    // useEffect(() => {
+    //     if (hospitals.length > 0) {
+    //         setDefaultSelectedItemID(hospitals[0].id);
+    //         setSelectedItemID(hospitals[0].id);
+    //     }
+    // }, [hospitals]);
 
     useEffect(() => {
         if (doctorsData.length > 0) {
@@ -1240,7 +1240,7 @@ if (searchTerm!='') {
                 setTotalDataCount(data.count);
                 setTotalPages(Math.ceil(data.count / perPage));
                 if (data.results && data.results.length > 0) {
-                    setSelectedItemID(data.results[0].id);
+                    // setSelectedItemID(data.results[0].id);
                 }
                 setIsLoading(false);
             }
@@ -1293,9 +1293,9 @@ if (searchTerm!='') {
         }
             setTotalDataCountHospital(data.count);
             setTotalPagesHospital(Math.ceil(data.count / perPageHospital));
-            if (data.results && data.results.length > 0) {
-                setSelectedItemIDHospital(data.results[0].id);
-            }
+            // if (data.results && data.results.length > 0) {
+            //     setSelectedItemID(data.results[0].id);
+            // }
             setIsLoading(false);
         }
         loadResults();
@@ -2129,8 +2129,8 @@ if (searchTerm!='') {
                                                   ${
                                                             // console.log(doctor.id[0]),
                                                             defaultSelectedItemID === hospital.id ? 'border-[#6e2feb]' : 'border-transparent'
-                                                            } ${selectedItemIDHospital === hospital.id ? 'bg-[#fff]' : ''}`
-                                                        }>
+                                                            } ${selectedItemID === hospital.id ? 'bg-[#fff]' : ''}`
+                                                        }>      
                                                         <div className="flex justify-between items-center w-full mb-3 relative">
                                                             <div className='absolute -left-6 top-0'>
                                                                 {showCheckboxes && (
@@ -2279,10 +2279,10 @@ if (searchTerm!='') {
                                             {/* ###Filter Details Start*/}
                                             {/*  */}
                                             <div className='p-10 basis-2/3 sm:sticky top-[30px] ease-in duration-300'>
-                                                {selectedItemIDHospital && (
+                                                {selectedItemID && (
                                                     <div className=''>
                                                         {hospitals.map((hospital, index) => (
-                                                            hospital.id === selectedItemIDHospital && (
+                                                            hospital.id === selectedItemID && (
                                                                 <div key={index} className='detailsInner w-full ease-in-out duration-1500'>
                                                                     <div className="py-4 detailsTitle text-[#101426]">
                                                                         <h2 className="text-3xl font-semibold m-b-3 text-[#101426]">
