@@ -169,7 +169,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
                         <h3 className="font-bold text-[#101426] text-base mt-4 mb-2">
                             Type
                         </h3>
-                        <div className="sm:flex grid grid-cols-2 place-content-stretch gap-4 my-2 max-w-[100%] items-center">
+                        <div className="sm:flex grid grid-cols-2 place-content-stretch gap-2 my-2 max-w-[100%] items-center">
                             <div
                                 className="px-5 py-3.5 cursor-pointer rounded-lg text-center text-sm w-[300px] max-w-[100%]"
                                 type="text" value={type} onChange={(e) => setType(e.target.value)}
@@ -200,7 +200,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
                             <h3 className="mt-4 mb-2 font-bold text-[#101426] text-base">
                                 Searching For
                             </h3>
-                            <ul className="flex flex-wrap gap-4 items-center">
+                            <ul className="flex flex-wrap gap-2 items-center">
                                 <li
                                     className="flex-none min-w-[110px] px-5 py-3.5 text-sm cursor-pointer rounded-md text-center"
                                     type="text" value={searchFor} onChange={(e) => setSearchFor(e.target.value)}
