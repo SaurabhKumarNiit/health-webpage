@@ -150,7 +150,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
                         <div>
                             <h2 className='font-semibold mt-4 mb-2'>ZipCode</h2>
                             <input
-                                className='border rounded-md px-3 py-3 bg-[#f7f9fc] w-[186px]'
+                                className='border rounded-md px-3 py-3 bg-[#f7f9fc] w-[210px]'
                                 type="text" placeholder="Enter" value={zipCode} onChange={(e) => setZipCode(e.target.value)}
                             />
                         </div>
@@ -166,12 +166,12 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
                             </div>
                         )}
 
-                        <h3 className="font-bold text-[#101426] text-base">
+                        <h3 className="font-bold text-[#101426] text-base mt-4 mb-2">
                             Type
                         </h3>
-                        <div className="sm:flex grid grid-cols-2 place-content-stretch gap-4 my-2 max-w-[270px] items-center">
+                        <div className="sm:flex grid grid-cols-2 place-content-stretch gap-4 my-2 max-w-[100%] items-center">
                             <div
-                                className="px-5 py-3.5 cursor-pointer rounded-lg text-center text-sm"
+                                className="px-5 py-3.5 cursor-pointer rounded-lg text-center text-sm w-[300px] max-w-[100%]"
                                 type="text" value={type} onChange={(e) => setType(e.target.value)}
                                 style={{
                                     border: selectedOption === "transplant" ? "1px solid #C8ADFF" : "1px solid #C5CEE0",
@@ -183,7 +183,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
                                 Transplant
                             </div>
                             <div
-                                className="px-5 py-3.5 cursor-pointer rounded-lg text-center text-sm"
+                                className="px-5 py-3.5 cursor-pointer rounded-lg text-center text-sm w-[300px] max-w-[100%]"
                                 type="text" value={type} onChange={(e) => setType(e.target.value)}
                                 style={{
                                     border: selectedOption === "oncology" ? "1px solid #C8ADFF" : "1px solid #C5CEE0",
@@ -202,7 +202,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
                             </h3>
                             <ul className="flex flex-wrap gap-4 items-center">
                                 <li
-                                    className="flex-none min-w-[80px] px-5 py-3.5 text-sm cursor-pointer rounded-md min-w-[90px] text-center"
+                                    className="flex-none min-w-[110px] px-5 py-3.5 text-sm cursor-pointer rounded-md text-center"
                                     type="text" value={searchFor} onChange={(e) => setSearchFor(e.target.value)}
                                     style={{
                                         border:
@@ -221,7 +221,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
                                     Doctor
                                 </li>
                                 <li
-                                    className="flex-none min-w-[80px] px-5 py-3.5 text-sm cursor-pointer rounded-md min-w-[90px] text-center"
+                                    className="flex-none min-w-[110px] px-5 py-3.5 text-sm cursor-pointer rounded-md  text-center"
                                     type="text" value={searchFor} onChange={(e) => setSearchFor(e.target.value)}
                                     style={{
                                         border:
@@ -259,7 +259,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
                                     selectedMutiple === "Hospital" || (
                                         <>
                                             <div className="transplantBox mb-2">
-                                                <h3 className="font-bold text-[#101426] text-base mt-2 ">
+                                                <h3 className="font-bold text-[#101426] text-base mt-4 mb-2">
                                                     Organ
                                                 </h3>
                                                 <br />
@@ -269,7 +269,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
                                                     className="mt-[50px] text-center"
                                                     style={{ marginLeft: "-50px" }}
                                                 >
-                                                    <div className="flex flex-wrap gap-4 items-baseline">
+                                                    <div className="flex flex-wrap gap-2 items-baseline">
                                                         {getOrganOptions().map((option) => (
                                                             <button
                                                                 style={{
@@ -295,6 +295,7 @@ const FilterPopup = ({ applyFilter, onCancel, defaultValues }) => {
                                                                     height: "101px",
                                                                     fontSize: "14px",
                                                                     textAlign: "-webkit-center",
+                                                                    margin:"auto"
                                                                 }}
                                                                 key={option}
                                                                 onClick={() => handleOrganSelection(option)}
